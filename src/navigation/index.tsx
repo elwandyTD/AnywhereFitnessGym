@@ -3,7 +3,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
-import { RootStackParams } from "@mytypes/navigation";
+import { RootStackParams } from "types/navigation";
 import HomeScreen from "../screens/HomeScreen";
 import SplashScreen from "../screens/SplashScreen";
 
@@ -16,17 +16,17 @@ const Navigation = () => {
         <Stack.Screen 
           name="HomeScreen" 
           component={HomeScreen} 
-          sharedElements={(route) => {
-            return [
-              {
-                id: "home.logo"
-              }
-            ]
-          }}
         />
         <Stack.Screen 
           name="SplashScreen" 
-          component={SplashScreen} 
+          component={SplashScreen}
+          sharedElements={() => {
+            return [
+              {
+                id: "home.logo",
+              }
+            ];
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
