@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Image } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { SharedElement } from "react-navigation-shared-element";
@@ -15,23 +15,39 @@ interface Props {
 const SplashScreen = ({ navigation }: Props) => {
   useEffect(() => {
     const navigateToHome = setTimeout(() => {
-      navigation.replace("HomeScreen");
+      navigation.replace("PartnerListScreen");
     }, 1000);
 
     return () => clearTimeout(navigateToHome);
   });
 
   return (
-    <View style={{ flex: 1,justifyContent: "center", alignItems: "center", paddingHorizontal: theme.space["3XL"] }}>
-      <SharedElement id="home.logo" style={{ width: "100%" }}>
+    <View style={styles.container}>
+      <SharedElement id="home.logo" style={styles.sharedElementContainer}>
         <Image 
           source={require("../assets/images/logo.png")}
-          style={{ height: RFValue(120), width: "100%" }}
+          style={styles.logoImgStyle}
           resizeMode="contain"
         />
       </SharedElement>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: theme.space["3XL"]
+  },
+  sharedElementContainer: {
+    width: "100%"
+  },
+  logoImgStyle: {
+    height: RFValue(120),
+    width: "100%"
+  }
+});
 
 export default SplashScreen;

@@ -1,4 +1,4 @@
-import { Dimensions } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 const height = Dimensions.get("window").height;
@@ -23,10 +23,19 @@ const sizes = {
 
   BUTTON_WIDTH: RFValue(40),
   BUTTON_HEIGHT: RFValue(35),
-  BANNER_HEIGHT: height / 3
+  BANNER_HEIGHT: height / 3,
+
+  PARTNER_LIST_ITEM_IMAGE_HEIGHT: RFValue(80),
+  PARTNER_LIST_ITEM_IMAGE_WIDTH: RFValue(80),
+  PARTNER_LIST_ITEM_BORDER_BOTTOM_WIDTH: 2,
+
+  TAG_HEIGHT: RFValue(30),
+
+  VIEWICON_SIZE: RFValue(80),
 }
 
 const space = {
+  XS: RFValue(3),
   SM: RFValue(5),
   MD: RFValue(10),
   LG: RFValue(15),
@@ -36,9 +45,11 @@ const space = {
 }
 
 const colors = {
-  gray: "#E8E8E8",
+  black: "#000",
   darkGray: "#B3B3B3",
+  gray: "#E8E8E8",
   green: "#006352",
+  white: "#FFF"
 }
 
 const rounded = {
@@ -56,17 +67,40 @@ const border = {
 }
 
 const animation = {
-  scaleTo: 0.8,
+  scaleTo: 0.87,
   duration: 50,
 }
+
+const styles = StyleSheet.create({
+  flexCentered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  textSubtitle: {
+    fontSize: fontSize.MD,
+    color: colors.black,
+  },
+  textTitle: {
+    fontSize: fontSize["2XL"],
+    color: colors.black,
+  },
+  borderRounded: {
+    borderWidth: border.WIDTH,
+    borderColor: border.COLOR,
+    borderRadius: rounded.FULL
+  }
+});
 
 const theme = {
   animation,
   border,
   colors,
+  fontSize,
   rounded,
   sizes,
   space,
+  styles,
 }
 
 export default theme;

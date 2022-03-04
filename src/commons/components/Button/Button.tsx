@@ -1,53 +1,32 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+
 import theme from "../../theme";
+import AnimatedView from "../Animated/AnimatedView";
 
 interface ButtonProps {
-  scaleTo?: number;
+  disabled?: boolean;
   duration?: number;
+  scaleTo?: number;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   text: string;
   onPress?(): void;
 }
 
-const Button = ({ duration = theme.animation.duration, scaleTo = theme.animation.scaleTo, style, textStyle, text, onPress }: ButtonProps) => {
-  const progress = useSharedValue(false);
-
-  const onPressIn = useCallback(() => {
-    progress.value = true
-  }, []);
-
-  const onPressOut = useCallback(() => {
-    progress.value = false
-  }, []);
-
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      transform: [{
-        scale: progress.value ? 
-          withTiming(scaleTo, { duration, easing: Easing.linear }) : 
-          withTiming(1, { duration, easing: Easing.linear })
-      }]}
-  });
-
+const Button = ({ duration, scaleTo, style, textStyle, text, onPress, disabled = false }: ButtonProps) => {
   return (
-    <Animated.View style={[animatedStyles]}>
-      <TouchableWithoutFeedback
-        onPress={onPress}
-        onPressIn={onPressIn}
-        onPressOut={onPressOut}
-        style={[styles.buttonContainer, style ]}
-      >
-        <Text style={[styles.textStyle, textStyle]}>{text}</Text>
-      </TouchableWithoutFeedback>
-    </Animated.View>
+    <AnimatedView
+      onPress={onPress}
+      style={[styles.buttonContainer, style]}
+      duration={duration}
+      scaleTo={scaleTo}
+      disabled={disabled}
+    >
+      <Text style={[styles.textStyle, textStyle]}>{text}</Text>
+    </AnimatedView>
   );
 }
-
-export default React.memo(Button);
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -58,11 +37,11 @@ const styles = StyleSheet.create({
     borderColor: theme.border.COLOR,
     borderRadius: theme.rounded.FULL,
     backgroundColor: theme.border.COLOR,
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
+    ...theme.styles.flexCentered
   },
   textStyle: {
     color: "#FFF"
   }
 });
+
+export default React.memo(Button);

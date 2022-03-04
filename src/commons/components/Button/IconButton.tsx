@@ -1,9 +1,8 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { StyleProp, StyleSheet, ViewStyle } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 
 import theme from "../../theme";
+import AnimatedView from "../Animated/AnimatedView";
 
 interface IconButtonProps {
   icon: React.ReactNode;
@@ -13,43 +12,18 @@ interface IconButtonProps {
   duration?: number;
 }
 
-const IconButton = ({ onPress, icon, style, scaleTo = theme.animation.scaleTo, duration = theme.animation.duration }: IconButtonProps) => {
-  const progress = useSharedValue(false);
-
-  const onPressIn = useCallback(() => {
-    progress.value = true
-  }, []);
-
-  const onPressOut = useCallback(() => {
-    progress.value = false
-  }, []);
-
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      transform: [{
-        scale: progress.value ? 
-          withTiming(scaleTo, { duration, easing: Easing.linear }) : 
-          withTiming(1, { duration, easing: Easing.linear })
-      }]}
-  });
-
+const IconButton = ({ onPress, icon, style, scaleTo, duration }: IconButtonProps) => {
   return (
-    <Animated.View 
-      style={[animatedStyles]}
+    <AnimatedView
+      onPress={onPress}
+      style={[ styles.buttonContainer, style ]}
+      scaleTo={scaleTo}
+      duration={duration}
     >
-      <TouchableWithoutFeedback 
-        onPressIn={onPressIn}
-        onPressOut={onPressOut}
-        onPress={onPress}
-        style={[ styles.buttonContainer, style ]}
-      >
-        {icon}
-      </TouchableWithoutFeedback>
-    </Animated.View>
+      {icon}
+    </AnimatedView>
   );
 }
-
-export default React.memo(IconButton);
 
 const styles = StyleSheet.create({
   buttonContainer: {
@@ -64,3 +38,5 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
+
+export default React.memo(IconButton);

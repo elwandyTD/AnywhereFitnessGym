@@ -20,8 +20,6 @@ const SearchInput = ({ style, onChangeText, placeholder = "Search..." }: SearchI
   )
 }
 
-export default React.memo(SearchInput);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -34,3 +32,5 @@ const styles = StyleSheet.create({
     fontSize: theme.sizes.INPUT_FONT_SIZE
   }
 });
+
+export default React.memo(SearchInput);

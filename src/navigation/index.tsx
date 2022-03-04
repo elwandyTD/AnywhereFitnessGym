@@ -4,8 +4,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
 import { RootStackParams } from "types/navigation";
-import HomeScreen from "../screens/HomeScreen";
+import PartnerListScreen from "../screens/PartnerListScreen";
 import SplashScreen from "../screens/SplashScreen";
+import DetailPartnerScreen from "../screens/DetailPartnerScreen";
 
 const Stack = createSharedElementStackNavigator<RootStackParams>();
 
@@ -14,8 +15,8 @@ const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator headerMode="none" initialRouteName="SplashScreen">
         <Stack.Screen 
-          name="HomeScreen" 
-          component={HomeScreen} 
+          name="PartnerListScreen" 
+          component={PartnerListScreen} 
         />
         <Stack.Screen 
           name="SplashScreen" 
@@ -27,6 +28,10 @@ const Navigation = () => {
               }
             ];
           }}
+        />
+        <Stack.Screen 
+          name="DetailPartnerScreen" 
+          component={DetailPartnerScreen} 
         />
       </Stack.Navigator>
     </NavigationContainer>

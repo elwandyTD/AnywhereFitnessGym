@@ -1,7 +1,7 @@
 export type RootStackParams = {
   SplashScreen: undefined;
-  HomeScreen: undefined;
-  DetailClassScreen: undefined;
+  PartnerListScreen: undefined;
+  DetailPartnerScreen: undefined;
   PaymentConfirmationScreen: undefined;
   PaymentScreen: undefined;
 }
