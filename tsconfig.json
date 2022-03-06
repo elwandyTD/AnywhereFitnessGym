@@ -39,21 +39,19 @@
     "moduleResolution": "node",               /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
     "baseUrl": "./",                       /* Base directory to resolve non-absolute module names. */
     "paths": {
-      // "@app/*": ["./src/*", "./src/*/index"],
-      // "@components/*": ["./src/components/*"],
-      // "@hooks/*": ["./src/hooks/*"],
-      // "@types/*": ["./src/types/*"],
-      // "@utils/*": ["./src/utils/*"],
-      // "@globals/*": ["./src/globals/*"],
       "Actions/*": ["./src/store/actions/*"],
       "App/*": ["./src/*"],
       "Components/*": ["./src/components/*"],
       "Hooks/*": ["./src/hooks/*"],
-      "Globals/*": ["./src/globals/*"],
+      "Global/*": ["./src/global/*"],
+      "Modules/*": ["src/components/modules/*"],
       "Reducers": ["./src/store/reducers"],
       "Reducers/*": ["./src/store/reducers/*"],
+      "Screens/*": ["./src/screens/*"],
       "Store": ["./src/store"],
       "Store/*": ["./src/store/*"],
+      "Theme": ["./src/global/theme"],
+      "Theme/*": ["./src/global/theme/*"],
       "Types/*": ["./src/types/*"],
       "Utils/*": ["./src/utils/*"],
     },                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */

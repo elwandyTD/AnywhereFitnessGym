@@ -1,6 +1,5 @@
 import React, { forwardRef, useCallback, useMemo } from 'react';
-import BottomSheet, { BottomSheetBackdropProps, BottomSheetProps } from '@gorhom/bottom-sheet';
-import Animated from 'react-native-reanimated';
+import BottomSheet, { BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
 
 import CustomBackdrop from './CustomBackdrop';
 
@@ -8,10 +7,6 @@ interface CustomBottomSheetProps {
   snapPoints?: (string | number)[];
   children: React.ReactNode;
 }
-
-// type CustomBottomSheetProps = BottomSheetProps & {
-//   snapPoints?: (string | number)[] | Animated.SharedValue<(string | number)[]>;
-// }
 
 const CustomBottomSheet = forwardRef<BottomSheet, CustomBottomSheetProps>(
   (props, ref) => {

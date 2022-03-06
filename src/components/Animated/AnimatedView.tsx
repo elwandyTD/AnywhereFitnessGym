@@ -2,8 +2,8 @@ import React, { useCallback, useState } from "react";
 import { StyleProp, ViewStyle, Pressable, StyleSheet } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
 
-import theme from "../../theme";
-import { useAnimationEffect } from "../../hooks/animations";
+import theme from "Theme";
+import { useAnimationEffect } from "Hooks/animations";
 
 interface AnimatedViewProps {
   active?: boolean;

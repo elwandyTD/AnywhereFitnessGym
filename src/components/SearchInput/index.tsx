@@ -1,7 +1,8 @@
 import React from "react";
-import { NativeSyntheticEvent, StyleProp, StyleSheet, TextInputChangeEventData, TextInputProps, TextStyle } from "react-native";
+import { StyleProp, TextStyle } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import theme from "../../theme";
+
+import styles from "./styles";
 
 interface SearchInputProps {
   onEnter?(): void;
@@ -19,18 +20,5 @@ const SearchInput = ({ style, onChangeText, placeholder = "Search..." }: SearchI
     />
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    height: theme.sizes.INPUT_HEIGHT,
-    borderRadius: theme.sizes.INPUT_HEIGHT,
-    borderWidth: theme.border.WIDTH,
-    borderColor: theme.border.COLOR,
-    paddingHorizontal: theme.space.LG,
-    paddingVertical: 0,
-    fontSize: theme.sizes.INPUT_FONT_SIZE
-  }
-});
 
 export default React.memo(SearchInput);

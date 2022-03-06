@@ -3,9 +3,9 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
-import PartnerListScreen from "../screens/PartnerListScreen";
-import SplashScreen from "../screens/SplashScreen";
-import DetailPartnerScreen from "../screens/DetailPartnerScreen";
+import PartnerListScreen from "Screens/PartnerListScreen";
+import SplashScreen from "Screens/SplashScreen";
+import DetailPartnerScreen from "Screens/DetailPartnerScreen";
 
 type RootStackParams = {
   SplashScreen: undefined;
