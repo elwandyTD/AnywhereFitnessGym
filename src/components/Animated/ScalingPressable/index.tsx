@@ -42,7 +42,7 @@ const ScalingPressable: React.FC<ScalingPressableProps> = ({
         onPress={onPress}
         onPressIn={onPressIn}
         onPressOut={onPressOut}
-        style={pressableStyle}
+        style={[pressableStyle]}
         disabled={disabled}
       >
         {children}

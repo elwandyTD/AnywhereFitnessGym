@@ -15,12 +15,13 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import DatePicker from "react-native-date-picker";
 
 
-import theme from "Theme";
 import styles from "./styles";
-import Tag from "Components/Tag";
-import ViewIcon from "App/components/modules/DetailPartnerScreen/ViewIcon";
+import theme from "Theme";
 import Button from "Components/Button";
 import CustomBottomSheet from "Components/CustomBottomSheet";
+import ImageAssets from "Assets/images";
+import Tag from "Components/Tag";
+import ViewIcon from "Modules/DetailPartnerScreen/ViewIcon";
 
 type DetailPartnerScreenProps = {
   route: RouteProp<ReactNavigation.RootStackParamList, "PartnerListScreen">;
@@ -39,17 +40,17 @@ const DetailPartnerScreen = ({ navigation }: DetailPartnerScreenProps) => {
           {/* <View>
           </View> */}
             <Image
-              source={require("../../assets/images/banner.jpg")}
+              source={ImageAssets.Banner}
               resizeMode="cover"
               style={styles.carouselImgStyle}
             />
             <Image
-              source={require("../../assets/images/banner.jpg")}
+              source={ImageAssets.Banner}
               resizeMode="cover"
               style={styles.carouselImgStyle}
             />
             <Image
-              source={require("../../assets/images/banner.jpg")}
+              source={ImageAssets.Banner}
               resizeMode="cover"
               style={styles.carouselImgStyle}
             />
@@ -64,7 +65,7 @@ const DetailPartnerScreen = ({ navigation }: DetailPartnerScreenProps) => {
         </View>
         <View style={styles.detailContainer}>
           <Image 
-            source={require("../../assets/images/logo.png")}
+            source={ImageAssets.Logo}
             resizeMode="contain"
             style={styles.logoImgStyle}
           />

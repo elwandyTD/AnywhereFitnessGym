@@ -89,6 +89,16 @@ const styles = StyleSheet.create({
     borderWidth: border.WIDTH,
     borderColor: border.COLOR,
     borderRadius: rounded.FULL
+  },
+  logoStyle: {
+    maxHeight: RFValue(50),
+    width: RFValue(160)
+  },
+  safeAreaView: {
+    flex: 1,
+  },
+  keyboardAvoidingView: {
+    flex: 1
   }
 });
 

@@ -6,6 +6,7 @@ import { createSharedElementStackNavigator } from "react-navigation-shared-eleme
 import PartnerListScreen from "Screens/PartnerListScreen";
 import SplashScreen from "Screens/SplashScreen";
 import DetailPartnerScreen from "Screens/DetailPartnerScreen";
+import LoginScreen from "Screens/LoginScreen";
 
 type RootStackParams = {
   SplashScreen: undefined;
@@ -13,6 +14,7 @@ type RootStackParams = {
   DetailPartnerScreen: undefined;
   PaymentConfirmationScreen: undefined;
   PaymentScreen: undefined;
+  LoginScreen: undefined;
 }
 
 declare global {
@@ -45,6 +47,10 @@ const Routes = () => {
         <Stack.Screen 
           name="DetailPartnerScreen" 
           component={DetailPartnerScreen} 
+        />
+        <Stack.Screen 
+          name="LoginScreen" 
+          component={LoginScreen} 
         />
       </Stack.Navigator>
     </NavigationContainer>

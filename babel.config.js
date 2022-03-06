@@ -10,6 +10,7 @@ module.exports = {
         alias: {
           Actions: './src/store/actions',
           App: './src',
+          Assets: './src/assets',
           Components: './src/components',
           Hooks: './src/hooks',
           Global: './src/global',

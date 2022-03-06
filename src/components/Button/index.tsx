@@ -6,6 +6,7 @@ import ScalingPressable from "Components/Animated/ScalingPressable";
 
 interface ButtonProps {
   disabled?: boolean;
+  containerStyle?: StyleProp<TextStyle>;
   duration?: number;
   scaleTo?: number;
   style?: StyleProp<ViewStyle>;
@@ -14,11 +15,12 @@ interface ButtonProps {
   onPress?(): void;
 }
 
-const Button = ({ duration, scaleTo, style, textStyle, text, onPress, disabled = false }: ButtonProps) => {
+const Button = ({ duration, scaleTo, style, textStyle, containerStyle, text, onPress, disabled = false }: ButtonProps) => {
   return (
     <ScalingPressable
       onPress={onPress}
       pressableStyle={[styles.buttonContainer, style]}
+      containerStyle={containerStyle}
       duration={duration}
       scaleTo={scaleTo}
       disabled={disabled}

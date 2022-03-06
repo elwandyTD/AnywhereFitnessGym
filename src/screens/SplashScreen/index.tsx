@@ -5,6 +5,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { SharedElement } from "react-navigation-shared-element";
 
 import styles from "./styles";
+import ImageAssets from "Assets/images";
 
 interface Props {
   navigation: StackNavigationProp<ReactNavigation.RootStackParamList, "SplashScreen">;
@@ -24,7 +25,7 @@ const SplashScreen = ({ navigation }: Props) => {
     <View style={styles.container}>
       <SharedElement id="home.logo" style={styles.sharedElementContainer}>
         <Image 
-          source={require("../../assets/images/logo.png")}
+          source={ImageAssets.Logo}
           style={styles.logoImgStyle}
           resizeMode="contain"
         />

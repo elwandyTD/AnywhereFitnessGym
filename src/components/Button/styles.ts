@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     paddingHorizontal: theme.space.LG,
     minWidth: theme.sizes.BUTTON_WIDTH,
-    height: theme.sizes.BUTTON_HEIGHT,
+    minHeight: theme.sizes.BUTTON_HEIGHT,
     borderWidth: theme.border.WIDTH,
     borderColor: theme.border.COLOR,
     borderRadius: theme.rounded.FULL,
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     ...theme.styles.flexCentered
   },
   textStyle: {
-    color: "#FFF"
+    color: theme.colors.white
   }
 });
 

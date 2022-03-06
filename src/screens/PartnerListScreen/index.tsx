@@ -8,11 +8,12 @@ import { SharedElement } from "react-navigation-shared-element";
 
 import styles from "./styles";
 import theme from "Theme";
-import IconButton from "Components/IconButton";
-import SearchInput from "Components/SearchInput";
-import Button from "Components/Button";
-import PartnerListItem from "App/components/modules/PartnerListScreen/PartnerListItem";
 import CustomBottomSheet from "Components/CustomBottomSheet";
+import Button from "Components/Button";
+import ImageAssets from "Assets/images";
+import IconButton from "Components/IconButton";
+import PartnerListItem from "App/components/modules/PartnerListScreen/PartnerListItem";
+import SearchInput from "Components/SearchInput";
 
 type Props = {
   route: RouteProp<ReactNavigation.RootStackParamList, "PartnerListScreen">;
@@ -39,14 +40,14 @@ const PartnerListScreen = ({ navigation }: Props) => {
       <ScrollView style={styles.container}>
         <View style={styles.bannerContainer}>
           <Image
-            source={require("../../assets/images/banner.jpg")}
+            source={ImageAssets.Banner}
             resizeMode="cover"
             style={styles.bannerImgStyle}
           />
           <View style={styles.logoContainer}>
             <SharedElement id="home.logo">
               <Image 
-                source={require("../../assets/images/logo.png")}
+                source={ImageAssets.Logo}
                 resizeMode="contain"
                 style={styles.logoImgStyle}
               />
@@ -65,7 +66,8 @@ const PartnerListScreen = ({ navigation }: Props) => {
           />
           <Button 
             text="Filter"
-            onPress={() => bottomSheetRef.current?.expand()}
+            onPress={() => navigation.navigate("LoginScreen")}
+            // onPress={() => bottomSheetRef.current?.expand()}
           />
         </View>
         <View style={styles.classListContainer}>
