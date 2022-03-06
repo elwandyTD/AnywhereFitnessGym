@@ -7,7 +7,6 @@ import FEIcon from "react-native-vector-icons/Feather";
 import BottomSheet from '@gorhom/bottom-sheet';
 
 // import { storage } from "../commons/utils/mmkv";
-import { RootStackParams } from "types/navigation";
 import theme from "../commons/theme";
 import IconButton from "../commons/components/Button/IconButton";
 import { SharedElement } from "react-navigation-shared-element";
@@ -17,8 +16,8 @@ import PartnerListItem from "../commons/components/PartnerListItem";
 import CustomBottomSheet from "../commons/components/BottomSheet/CustomBottomSheet";
 
 type Props = {
-  route: RouteProp<RootStackParams, "PartnerListScreen">;
-  navigation: StackNavigationProp<RootStackParams, "PartnerListScreen">;
+  route: RouteProp<ReactNavigation.RootStackParamList, "PartnerListScreen">;
+  navigation: StackNavigationProp<ReactNavigation.RootStackParamList, "PartnerListScreen">;
 }
 
 const PartnerListScreen = ({ navigation }: Props) => {

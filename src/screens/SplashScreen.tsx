@@ -3,13 +3,12 @@ import { View, Image, StyleSheet } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { SharedElement } from "react-navigation-shared-element";
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { RFValue } from "react-native-responsive-fontsize";
 
-import { RootStackParams } from "types/navigation";
 import theme from "../commons/theme";
 interface Props {
-  navigation: StackNavigationProp<RootStackParams, "SplashScreen">;
-  route: RouteProp<RootStackParams, "SplashScreen">
+  navigation: StackNavigationProp<ReactNavigation.RootStackParamList, "SplashScreen">;
+  route: RouteProp<ReactNavigation.RootStackParamList, "SplashScreen">
 }
 
 const SplashScreen = ({ navigation }: Props) => {

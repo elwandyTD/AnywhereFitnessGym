@@ -1,5 +1,5 @@
-import actionTypes from "./actionTypes";
-import { IMiscAction, IMiscState } from "./types";
+import actionTypes from "Store/actionTypes";
+import { IMiscAction, IMiscState } from "Store/types/misc";
 
 const intialState: IMiscState = {
   counter: 0
@@ -7,7 +7,7 @@ const intialState: IMiscState = {
 
 const miscReducer = (state: IMiscState = intialState, action: IMiscAction): IMiscState => {
   switch (action.type) {
-    case actionTypes.SET_STATE: 
+    case actionTypes.misc.SET_STATE: 
       return {
         ...state,
         ...action.payload?.state || {}

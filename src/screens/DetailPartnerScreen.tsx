@@ -12,6 +12,7 @@ import MIIcon from "react-native-vector-icons/MaterialIcons";
 import { RFValue } from "react-native-responsive-fontsize";
 import MapView from "react-native-maps";
 import BottomSheet from '@gorhom/bottom-sheet';
+import DatePicker from "react-native-date-picker";
 
 // <FA5Icon name="building" />
 // <FtIcon name="map-marker-alt" />
@@ -24,12 +25,10 @@ import Tag from "../commons/components/Tag";
 import ViewIcon from "../commons/components/Button/ViewIcon";
 import Button from "../commons/components/Button/Button";
 import CustomBottomSheet from "../commons/components/BottomSheet/CustomBottomSheet";
-import { RootStackParams } from "types/navigation";
-import DatePicker from "react-native-date-picker";
 
 type DetailPartnerScreenProps = {
-  route: RouteProp<RootStackParams, "PartnerListScreen">;
-  navigation: StackNavigationProp<RootStackParams, "PartnerListScreen">;
+  route: RouteProp<ReactNavigation.RootStackParamList, "PartnerListScreen">;
+  navigation: StackNavigationProp<ReactNavigation.RootStackParamList, "PartnerListScreen">;
 }
 
 const DetailPartnerScreen = ({ navigation }: DetailPartnerScreenProps) => {

@@ -3,14 +3,27 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
-import { RootStackParams } from "types/navigation";
 import PartnerListScreen from "../screens/PartnerListScreen";
 import SplashScreen from "../screens/SplashScreen";
 import DetailPartnerScreen from "../screens/DetailPartnerScreen";
 
+type RootStackParams = {
+  SplashScreen: undefined;
+  PartnerListScreen: undefined;
+  DetailPartnerScreen: undefined;
+  PaymentConfirmationScreen: undefined;
+  PaymentScreen: undefined;
+}
+
+declare global {
+  namespace ReactNavigation {
+    type RootStackParamList = RootStackParams;
+  }
+}
+
 const Stack = createSharedElementStackNavigator<RootStackParams>();
 
-const Navigation = () => {
+const Routes = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="none" initialRouteName="SplashScreen">
@@ -38,4 +51,4 @@ const Navigation = () => {
   );
 }
 
-export default Navigation;
+export default Routes;
