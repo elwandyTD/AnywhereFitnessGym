@@ -99,7 +99,27 @@ const styles = StyleSheet.create({
   },
   keyboardAvoidingView: {
     flex: 1
-  }
+  },
+  flexRow: {
+    flexDirection: "row"
+  },
+  btnContainer:{
+    marginTop: space["2XL"],
+    maxHeight: sizes.INPUT_HEIGHT + 5,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  btnLogin: {
+    maxWidth: 100,
+    minWidth: 100,
+    maxHeight: sizes.INPUT_HEIGHT,
+    backgroundColor: colors.green,
+    borderWidth: 0
+  },
+  textBtnLogin: {
+    fontWeight: "bold"
+  },
 });
 
 const theme = {

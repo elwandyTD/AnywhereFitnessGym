@@ -7,6 +7,7 @@ import PartnerListScreen from "Screens/PartnerListScreen";
 import SplashScreen from "Screens/SplashScreen";
 import DetailPartnerScreen from "Screens/DetailPartnerScreen";
 import LoginScreen from "Screens/LoginScreen";
+import RegisterScreen from "Screens/RegisterScreen";
 
 type RootStackParams = {
   SplashScreen: undefined;
@@ -15,6 +16,7 @@ type RootStackParams = {
   PaymentConfirmationScreen: undefined;
   PaymentScreen: undefined;
   LoginScreen: undefined;
+  RegisterScreen: undefined;
 }
 
 declare global {
@@ -51,6 +53,10 @@ const Routes = () => {
         <Stack.Screen 
           name="LoginScreen" 
           component={LoginScreen} 
+        />
+        <Stack.Screen 
+          name="RegisterScreen" 
+          component={RegisterScreen} 
         />
       </Stack.Navigator>
     </NavigationContainer>

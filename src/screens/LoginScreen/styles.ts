@@ -40,12 +40,13 @@ const styles = StyleSheet.create({
   },
   registerContainer: {
     flexDirection: "row",
-    marginTop: theme.space.XL
+    marginVertical: theme.space.XL
   },
   textSignUp: {
     color: theme.colors.green,
     marginLeft: 5
-  }
+  },
+  
 });
 
 export default styles;
