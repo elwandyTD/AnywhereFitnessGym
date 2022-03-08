@@ -40,6 +40,7 @@
     "baseUrl": "./",                       /* Base directory to resolve non-absolute module names. */
     "paths": {
       "Actions/*": ["./src/store/actions/*"],
+      "Api": ["./src/services/api"],
       "App/*": ["./src/*"],
       "Assets/*": ["./src/assets/*"],
       "Components/*": ["./src/components/*"],
@@ -49,8 +50,10 @@
       "Reducers": ["./src/store/reducers"],
       "Reducers/*": ["./src/store/reducers/*"],
       "Screens/*": ["./src/screens/*"],
+      "Services/*": ["./src/services/*"],
       "Store": ["./src/store"],
       "Store/*": ["./src/store/*"],
+      "StoreTypes/*": ["./src/store/types/*"],
       "Theme": ["./src/global/theme"],
       "Theme/*": ["./src/global/theme/*"],
       "Types/*": ["./src/types/*"],
