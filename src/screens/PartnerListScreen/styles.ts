@@ -1,6 +1,9 @@
 import theme from "Theme";
 import { StyleSheet } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
+import { Dimensions } from "react-native";
+
+const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -73,9 +76,7 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   programButton: {
-    backgroundColor: theme.colors.gray,
     borderWidth: 0,
-    paddingHorizontal: 25
   },
   classSection: {
     paddingVertical: 15,
@@ -85,28 +86,16 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   classButton: {
-    minHeight: theme.sizes.BUTTON_HEIGHT,
-    marginRight: 10,
+    marginRight: 5,
     marginTop: 5,
-    borderColor: theme.border.COLOR,
-    borderWidth: theme.border.WIDTH,
   },
   buttonsSection: {
     flexDirection: "row",
-    alignSelf: "center",
+    justifyContent: "center",
+    width,
     position: "absolute",
-    bottom: 40,
-    right: 25
+    bottom: RFValue(145)
   },
-  actionButton: {
-    minHeight: 40,
-    // minWidth: 120,
-    backgroundColor: theme.colors.green,
-    // paddingVertical: theme.space.,
-  },
-  textActionButton: {
-    fontSize: theme.fontSize.XL
-  }
 });
 
 export default styles;

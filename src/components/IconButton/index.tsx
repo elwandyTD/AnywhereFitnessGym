@@ -16,7 +16,7 @@ const IconButton: React.FC<IconButtonProps> = ({ onPress, icon, style, scaleTo, 
   return (
     <ScalingPressable
       onPress={onPress}
-      pressableStyle={[styles.buttonContainer, style]}
+      style={[styles.buttonContainer, style]}
       scaleTo={scaleTo}
       duration={duration}
     >

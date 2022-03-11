@@ -1,6 +1,6 @@
 import { ImageOrVideo } from "react-native-image-crop-picker";
 
-export interface UserModel {
+export type UserModel = {
   name: string;
   birth_date: string;
   telephone_number: string;

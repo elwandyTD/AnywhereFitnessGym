@@ -3,16 +3,19 @@ import { StyleProp, ViewStyle, Pressable, StyleSheet } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
 
 import theme from "Theme";
-import { useScallingEffect } from "Hooks/animations";
+import { useBackgroundColorEffect, useScallingEffect } from "Hooks/animations";
 
 interface ScalingPressableProps {
+  active?: boolean;
+  activeColorFrom?: string;
+  activeColorTo?: string;
   containerStyle?: StyleProp<ViewStyle>;
   children: React.ReactNode;
   disabled?: boolean;
   duration?: number;
   onPress?(): void;
   scaleTo?: number;
-  pressableStyle?: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
 }
 
 const ScalingPressable: React.FC<ScalingPressableProps> = ({ 
@@ -22,33 +25,48 @@ const ScalingPressable: React.FC<ScalingPressableProps> = ({
   duration = theme.animation.duration,
   onPress,
   scaleTo = theme.animation.scaleTo,
-  pressableStyle,
+  style,
+  active,
+  activeColorFrom, 
+  activeColorTo
 }) => {
   const isPressIn = useSharedValue(false);
+  const isActive = useSharedValue<boolean>(Boolean(active));
 
-  const onPressIn = useCallback(() => {
+  const _onPressIn = useCallback(() => {
     isPressIn.value = true;
   }, []);
 
-  const onPressOut = useCallback(() => {
+  const _onPressOut = useCallback(() => {
     isPressIn.value = false;
   }, []);
 
-  const animatedStyles = useScallingEffect(isPressIn, { duration, scaleTo });
+  const _onPress = useCallback(() => {
+    if (onPress) {
+      onPress();
+    }
+
+    if (isPressIn.value) {
+      isPressIn.value = false;
+    }
+  }, [isActive, isPressIn, onPress]);
+
+  const animatedScalingStyles = useScallingEffect(isPressIn, { duration, scaleTo });
+  // const animatedBgColorStyles = useBackgroundColorEffect(isActive, { fromColor: activeColorFrom, toColor: activeColorTo });
+
+  const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
   return (
-    <Animated.View style={[containerStyle, animatedStyles]}>
-      <Pressable
-        onPress={onPress}
-        onPressIn={onPressIn}
-        onPressOut={onPressOut}
-        style={[pressableStyle]}
-        disabled={disabled}
-      >
-        {children}
-      </Pressable>
-    </Animated.View>
-  );
+    <AnimatedPressable 
+      onPress={_onPress}
+      disabled={disabled}
+      onPressIn={_onPressIn}
+      onPressOut={_onPressOut}
+      style={[style, animatedScalingStyles]}
+    >
+      {children}
+    </AnimatedPressable>
+  )
 }
 
 export default React.memo(ScalingPressable);

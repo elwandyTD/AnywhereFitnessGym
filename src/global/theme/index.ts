@@ -120,6 +120,18 @@ const styles = StyleSheet.create({
   textBtnLogin: {
     fontWeight: "bold"
   },
+  roundedBgPrimary: {
+    borderRadius: rounded.FULL,
+    backgroundColor: colors.green
+  },
+  roundedBgTransparent: {
+    borderRadius: rounded.FULL,
+    backgroundColor: "transparent"
+  },
+  roundedBgDefault: {
+    borderRadius: rounded.FULL,
+    backgroundColor: colors.darkGray
+  },
 });
 
 const theme = {

@@ -2,7 +2,9 @@ import actionTypes from "Store/actionTypes";
 import { IMiscAction, IMiscState } from "Store/types/misc";
 
 const intialState: IMiscState = {
-  counter: 0
+  firstLoad: true,
+  loading: false,
+  loadingSplahsreen: true,
 }
 
 const miscReducer = (state: IMiscState = intialState, action: IMiscAction): IMiscState => {

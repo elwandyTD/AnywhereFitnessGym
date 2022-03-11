@@ -27,7 +27,7 @@ const TextField = ({ label, onChangeText, type = "text", noLabel = false, smallL
 
   const setStatusModalDate = useCallback(() => {
     setShowModalDate(!showModalDate)
-    console.log(setShowModalDate)
+    // console.log(setShowModalDate)
   }, [showModalDate]);
 
   return (

@@ -1,9 +1,17 @@
 export interface IMiscState {
-  counter?: number;
+  firstLoad: boolean;
+  loading: boolean;
+  loadingSplahsreen: boolean;
+}
+
+export interface IMiscPayloadState {
+  firstLoad?: boolean;
+  loading?: boolean;
+  loadingSplahsreen?: boolean;
 }
 
 export interface IMiscPayload {
-  state?: IMiscState;
+  state?: IMiscPayloadState;
 }
 
 export interface IMiscAction {
@@ -11,4 +19,4 @@ export interface IMiscAction {
   payload?: IMiscPayload;
 }
 
-export type MiscDispatchType = (args: IMiscAction) => IMiscAction
+// export type MiscDispatchType = (args: IMiscAction) => IMiscAction

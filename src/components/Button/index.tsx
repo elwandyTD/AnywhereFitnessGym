@@ -19,7 +19,7 @@ const Button = ({ duration, scaleTo, style, textStyle, containerStyle, text, onP
   return (
     <ScalingPressable
       onPress={onPress}
-      pressableStyle={[styles.buttonContainer, style]}
+      style={[styles.buttonContainer, style]}
       containerStyle={containerStyle}
       duration={duration}
       scaleTo={scaleTo}

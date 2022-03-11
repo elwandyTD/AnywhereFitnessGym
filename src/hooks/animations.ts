@@ -53,3 +53,18 @@ export const useScallingEffect = (isPressIn: AnimationList["isPressIn"], { scale
 
   return styles;
 }
+
+type BackgroundColorSetting = {
+  fromColor?: string;
+  toColor?: string;
+}
+
+export const useBackgroundColorEffect = (isActive: AnimationList["isActive"], { fromColor = theme.colors.white, toColor = theme.colors.gray }: BackgroundColorSetting) => {
+  const styles = useAnimatedStyle(() => {
+    return {
+      backgroundColor: isActive.value ? toColor : fromColor
+    }
+  });
+
+  return styles
+}
