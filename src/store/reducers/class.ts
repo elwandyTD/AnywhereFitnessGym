@@ -2,7 +2,8 @@ import { IClassState, IClassAction } from "StoreTypes/class";
 import actionTypes from "../actionTypes";
 
 const initialState: IClassState = {
-  classList: []
+  classList: [],
+  loading: false,
 }
 
 const classReducer = (state: IClassState = initialState, action: IClassAction): IClassState => {

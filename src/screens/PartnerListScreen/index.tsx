@@ -40,9 +40,11 @@ const PartnerListScreen = ({ navigation }: Props) => {
   const { classList = [] } = _class;
   const { typeList = [] } = _type;
 
-  const onPressSearch = () => {
-    console.log("Press");
-  }
+  const _onPressSearch = useCallback(() => {
+    const filterBy = _initFilter();
+
+    dispatch(getClassList(filterBy))
+  }, [keyword, dispatch]);
 
   const _onCancelFilter = useCallback(() => {
     setTempCategory(category);
@@ -55,10 +57,7 @@ const PartnerListScreen = ({ navigation }: Props) => {
     setCategory(tempCategory);
     setType(tempType);
 
-    const filterBy: FilterGetAllClass = {};
-
-    if (tempCategory !== "All") filterBy.category = tempCategory;
-    if (tempType !== "All") filterBy.types = tempType;
+    const filterBy = _initFilter();
 
     dispatch(getClassList(filterBy))
 
@@ -76,6 +75,16 @@ const PartnerListScreen = ({ navigation }: Props) => {
   const onChangeSearchInput = useCallback((text: string) => {
     setKeyword(text);
   }, []);
+
+  const _initFilter = (): FilterGetAllClass => {
+    const filterBy: FilterGetAllClass = {};
+
+    if (tempCategory !== "All") filterBy.category = tempCategory;
+    if (tempType !== "All") filterBy.types = tempType;
+    if (keyword !== "") filterBy.name = keyword;
+
+    return filterBy;
+  }
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -103,14 +112,9 @@ const PartnerListScreen = ({ navigation }: Props) => {
           />
           <IconButton 
             icon={<FEIcon name="search" size={theme.sizes.ICON_SIZE} color={theme.colors.darkGray} />}
-            onPress={onPressSearch}
+            onPress={_onPressSearch}
             style={{ marginHorizontal: theme.space.MD, }}
           />
-          {/* <Button 
-            text="Filter"
-            onPress={() => navigation.navigate("LoginScreen")}
-            onPress={() => bottomSheetRef.current?.expand()}
-          /> */}
           <ButtonTag 
             title="Filter"
             onPress={() => bottomSheetRef.current?.expand()}
@@ -119,11 +123,9 @@ const PartnerListScreen = ({ navigation }: Props) => {
         </View>
         <View style={styles.classListContainer}>
           {/* <Text style={styles.textInformation}>Search for "Fitness Gym"</Text> */}
-          <PartnerListItem />
-          <PartnerListItem />
-          <PartnerListItem />
-          <PartnerListItem />
-          <PartnerListItem />
+          {classList.map((item) => (
+            <PartnerListItem item={item} key={item.id} />
+          ))}
         </View>
       </ScrollView>
       <CustomBottomSheet

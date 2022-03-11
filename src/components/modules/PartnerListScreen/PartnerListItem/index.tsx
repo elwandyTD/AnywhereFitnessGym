@@ -1,18 +1,25 @@
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import React from "react";
 import { View, Text, Image } from "react-native";
 
 import styles from "./styles";
 import AnimatedView from "Components/Animated/AnimatedView";
 import Tag from "Components/Tag";
+import { ClassListModel } from "Types/class";
 
-const PartnerListItem = () => {
+type PartnerListItemProps = {
+  item: ClassListModel;
+}
+
+const PartnerListItem = ({ item }: PartnerListItemProps) => {
   const navigation = useNavigation<StackNavigationProp<ReactNavigation.RootStackParamList>>();
 
   const onPress = () => {
     navigation.push("DetailPartnerScreen");
   }
+
+  console.log(item);
 
   return (
     <AnimatedView 
@@ -29,20 +36,20 @@ const PartnerListItem = () => {
       </View>
       <View style={styles.detailContainer}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Anywhere Fitness Gymastic</Text>
+          <Text style={styles.title}>{item.name}</Text>
           {/* <Text style={styles.tagType}>Anywhere</Text> */}
-          {true && (
+          {item.types_name === "Online" && (
             <Tag 
               style={styles.tagType}
               containerStyle={styles.tagTypeContainer}
-              text="Online" 
+              text={item.types_name}
             />
           )}
         </View>
         <Text style={styles.subTitle}>Modern fitness space for hourly rental</Text>
         <View style={styles.tagsContainer}>
-          <Tag text="Semi-private room" />
-          <Tag text="fitness club" />
+          <Tag text={item.category_name} />
+          {/* <Tag text="fitness club" /> */}
         </View>
       </View>
     </AnimatedView>

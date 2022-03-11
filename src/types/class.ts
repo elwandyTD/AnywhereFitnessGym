@@ -24,4 +24,5 @@ export type ClassListModel = {
 export type FilterGetAllClass = {
   category?: string;
   types?: string;
+  name?: string;
 }
