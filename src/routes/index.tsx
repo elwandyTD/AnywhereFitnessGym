@@ -3,16 +3,19 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
-import PartnerListScreen from "Screens/PartnerListScreen";
+import ClassListScreen from "App/screens/ClassListScreen";
 import SplashScreen from "Screens/SplashScreen";
-import DetailPartnerScreen from "Screens/DetailPartnerScreen";
+import DetailClassScreen from "App/screens/DetailClassScreen";
 import LoginScreen from "Screens/LoginScreen";
 import RegisterScreen from "Screens/RegisterScreen";
+import { ClassListModel } from "Types/class";
 
 type RootStackParams = {
   SplashScreen: undefined;
-  PartnerListScreen: undefined;
-  DetailPartnerScreen: undefined;
+  ClassListScreen: undefined;
+  DetailClassScreen: {
+    item: ClassListModel
+  };
   PaymentConfirmationScreen: undefined;
   PaymentScreen: undefined;
   LoginScreen: undefined;
@@ -32,8 +35,8 @@ const Routes = () => {
     <NavigationContainer>
       <Stack.Navigator headerMode="none" initialRouteName="SplashScreen">
         <Stack.Screen 
-          name="PartnerListScreen" 
-          component={PartnerListScreen} 
+          name="ClassListScreen" 
+          component={ClassListScreen} 
         />
         <Stack.Screen 
           name="SplashScreen" 
@@ -47,8 +50,8 @@ const Routes = () => {
           }}
         />
         <Stack.Screen 
-          name="DetailPartnerScreen" 
-          component={DetailPartnerScreen} 
+          name="DetailClassScreen" 
+          component={DetailClassScreen} 
         />
         <Stack.Screen 
           name="LoginScreen" 

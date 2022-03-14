@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { SafeAreaView, ScrollView, Image, View, Text } from "react-native";
+import { SafeAreaView, ScrollView, Image, View, Text, RefreshControl } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import FEIcon from "react-native-vector-icons/Feather";
@@ -12,7 +12,7 @@ import CustomBottomSheet from "Components/CustomBottomSheet";
 import Button from "Components/Button";
 import ImageAssets from "Assets/images";
 import IconButton from "Components/IconButton";
-import PartnerListItem from "App/components/modules/PartnerListScreen/PartnerListItem";
+import ClassListItem from "Modules/ClassListScreen/ClassListItem";
 import SearchInput from "Components/SearchInput";
 import { useDispatch, useSelector } from "react-redux";
 import ButtonTag from "App/components/ButtonTag";
@@ -20,17 +20,18 @@ import { getClassList } from "Actions/class";
 import { FilterGetAllClass } from "Types/class";
 
 type Props = {
-  route: RouteProp<ReactNavigation.RootStackParamList, "PartnerListScreen">;
-  navigation: StackNavigationProp<ReactNavigation.RootStackParamList, "PartnerListScreen">;
+  route: RouteProp<ReactNavigation.RootStackParamList, "ClassListScreen">;
+  navigation: StackNavigationProp<ReactNavigation.RootStackParamList, "ClassListScreen">;
 }
 
-const PartnerListScreen = ({ navigation }: Props) => {
+const ClassListScreen = ({ navigation }: Props) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const dispatch = useDispatch();
   const _category = useSelector((state: AppStore.AppState) => state.category);
   const _class = useSelector((state: AppStore.AppState) => state.class);
   const _type = useSelector((state: AppStore.AppState) => state.type);
   const [category, setCategory] = useState("All");
+  const [refreshing, setRefreshing] = useState(false);
   const [type, setType] = useState("All");
   const [tempCategory, setTempCategory] = useState("All");
   const [tempType, setTempType] = useState("All");
@@ -72,8 +73,12 @@ const PartnerListScreen = ({ navigation }: Props) => {
     setTempType(newType)
   }, []);
 
-  const onChangeSearchInput = useCallback((text: string) => {
+  const _onChangeSearchInput = useCallback((text: string) => {
     setKeyword(text);
+  }, []);
+
+  const _onRefreshing = useCallback(() => {
+    
   }, []);
 
   const _initFilter = (): FilterGetAllClass => {
@@ -88,7 +93,14 @@ const PartnerListScreen = ({ navigation }: Props) => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <ScrollView style={styles.container}>
+      <ScrollView 
+        style={styles.container}
+        refreshControl={
+          <RefreshControl 
+            refreshing={refreshing}
+          />
+        }
+      >
         <View style={styles.bannerContainer}>
           <Image
             source={ImageAssets.Banner}
@@ -108,7 +120,7 @@ const PartnerListScreen = ({ navigation }: Props) => {
 
         <View style={styles.filterContainer}>
           <SearchInput 
-            onChangeText={onChangeSearchInput}
+            onChangeText={_onChangeSearchInput}
           />
           <IconButton 
             icon={<FEIcon name="search" size={theme.sizes.ICON_SIZE} color={theme.colors.darkGray} />}
@@ -122,9 +134,8 @@ const PartnerListScreen = ({ navigation }: Props) => {
           />
         </View>
         <View style={styles.classListContainer}>
-          {/* <Text style={styles.textInformation}>Search for "Fitness Gym"</Text> */}
-          {classList.map((item) => (
-            <PartnerListItem item={item} key={item.id} />
+          {classList.map((item, i) => (
+            <ClassListItem index={i} item={item} key={item.id} />
           ))}
         </View>
       </ScrollView>
@@ -134,7 +145,7 @@ const PartnerListScreen = ({ navigation }: Props) => {
         <View style={[styles.wrapper, styles.bottomsheetContainer]}>
           <Text style={styles.filterTitle}>Filter</Text>
           <View style={styles.programSection}>
-            <Text style={theme.styles.textTitle}>Select Program</Text>
+            <Text style={theme.styles.textTitle}>Select Type</Text>
             <View style={styles.programList}>
               <ButtonTag 
                 title="All"
@@ -156,7 +167,7 @@ const PartnerListScreen = ({ navigation }: Props) => {
             </View>
           </View>
           <View style={styles.classSection}>
-            <Text style={theme.styles.textTitle}>Select Class</Text>
+            <Text style={theme.styles.textTitle}>Select Category</Text>
             <View style={styles.classList}>
               <ButtonTag 
                 active={tempCategory === "All"}
@@ -201,4 +212,4 @@ const PartnerListScreen = ({ navigation }: Props) => {
   );
 }
 
-export default PartnerListScreen;
+export default ClassListScreen;

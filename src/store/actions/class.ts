@@ -21,6 +21,20 @@ export const getClassList = (filterBy?: FilterGetAllClass) => {
   }
 }
 
+export const getClassById = (id: string) => {
+  return async (dispatch: any) => {
+    try {
+      dispatch(setLoading(true));
+      const req = await classService.getById(id);
+
+      dispatch(setState({ detailClass: req.data?.data || {}, loading: false }));
+    } catch(e) {
+      console.log(e);
+      dispatch(setState({ detailClass: {}, loading: false }));
+    }
+  }
+}
+
 export const setClassList = (classList: ClassListModel[]): IClassAction => ({
   type: actionTypes.class.SET_ALL,
   payload: {

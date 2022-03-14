@@ -4,55 +4,48 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { View, Text, Image } from "react-native";
 
 import styles from "./styles";
-import AnimatedView from "Components/Animated/AnimatedView";
+import ImageAsset from "Assets/images";
+import ScalingPressable from "Components/Animated/ScalingPressable";
 import Tag from "Components/Tag";
 import { ClassListModel } from "Types/class";
 
 type PartnerListItemProps = {
   item: ClassListModel;
+  index: number;
 }
 
-const PartnerListItem = ({ item }: PartnerListItemProps) => {
+const PartnerListItem = ({ item, index = 0 }: PartnerListItemProps) => {
   const navigation = useNavigation<StackNavigationProp<ReactNavigation.RootStackParamList>>();
 
   const onPress = () => {
-    navigation.push("DetailPartnerScreen");
+    navigation.push("DetailClassScreen", { item });
   }
 
-  console.log(item);
-
   return (
-    <AnimatedView 
+    <ScalingPressable 
       style={styles.container}
       scaleTo={0.97}
       onPress={onPress}
+      useAnimatedLayout={true}
+      index={index}
     >
       <View style={styles.imgContainer}>
         <Image 
           resizeMode="contain"
-          source={require("../../../../assets/images/logo.png")}
+          source={ImageAsset.Logo}
           style={styles.imgStyle}
         />
       </View>
       <View style={styles.detailContainer}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{item.name}</Text>
-          {/* <Text style={styles.tagType}>Anywhere</Text> */}
-          {item.types_name === "Online" && (
-            <Tag 
-              style={styles.tagType}
-              containerStyle={styles.tagTypeContainer}
-              text={item.types_name}
-            />
-          )}
+          <Text style={styles.title}>{item.content.title}</Text>
         </View>
-        <Text style={styles.subTitle}>Modern fitness space for hourly rental</Text>
         <View style={styles.tagsContainer}>
+          <Tag text={item.types_name} />
           <Tag text={item.category_name} />
-          {/* <Tag text="fitness club" /> */}
         </View>
       </View>
-    </AnimatedView>
+    </ScalingPressable>
   );
 }
 

@@ -1,14 +1,16 @@
 
-import { ClassListModel } from "Types/class";
+import { ClassListModel, DetailClassModel } from "Types/class";
 
 export interface IClassState {
   classList: ClassListModel[];
   loading: boolean;
+  detailClass: DetailClassModel;
 }
 
 export interface IClassPayloadState {
   classList?: ClassListModel[];
   loading?: boolean;
+  detailClass?: DetailClassModel;
 }
 
 export interface IClassPayload {

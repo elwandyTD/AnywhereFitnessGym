@@ -12,7 +12,7 @@ export const getAll = (filterBy?: FilterGetAllClass, config?: AxiosRequestConfig
   return apiFunc(`/class${query}`, "GET", config);
 }
 
-export const getById = (id: string, config: AxiosRequestConfig<any>) => {
+export const getById = (id: string, config?: AxiosRequestConfig<any>) => {
   return apiFunc(`/class/${id}`, "GET", config);
 }
 

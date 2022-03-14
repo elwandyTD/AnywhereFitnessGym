@@ -12,7 +12,7 @@ interface ViewIconProps {
 
 const ViewIcon = ({ children, text, style }: ViewIconProps) => {
   return (
-    <ScalingPressable pressableStyle={[styles.container, style]}>
+    <ScalingPressable style={[styles.container, style]}>
       <View>
         {children}
       </View>

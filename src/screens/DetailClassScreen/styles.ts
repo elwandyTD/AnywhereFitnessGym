@@ -16,19 +16,40 @@ const styles = StyleSheet.create({
     height: theme.sizes.BANNER_HEIGHT,
     width: undefined
   },
+  dotStyle: {
+    backgroundColor: 'rgba(0, 0, 0, .3)',
+    width: 5,
+    height: 5,
+    borderRadius: 4,
+    margin: 3
+  },
+  logoContainer: {
+    minHeight: RFValue(70),
+    padding: RFValue(10),
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center"
+  },
   iconsContainer: {
     padding: RFValue(20),
-    flexDirection: "row"    
+    flexDirection: "row"  
   },
   iconStyle: {
     marginRight: RFValue(15)
+  },
+  paginationStyle: {
+    backgroundColor: "rgba(255, 255, 255, .4)", 
+    bottom: 0,
+    width: "100%", 
+    height: theme.sizes.BANNER_HEIGHT / 10
   },
   detailContainer: {
     paddingHorizontal: RFValue(20),
   },
   logoImgStyle: {
     maxHeight: RFValue(50),
-    width: RFValue(160)
+    maxWidth: RFValue(160),
+    flex: 1,
   },
   tagContainer: {
     paddingVertical: RFValue(10),

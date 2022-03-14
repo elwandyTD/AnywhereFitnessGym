@@ -28,13 +28,13 @@ const SplashScreen = ({ navigation }: Props) => {
 
   useEffect(() => {
     // const navigateToHome = setTimeout(() => {
-      // navigation.replace("PartnerListScreen");
+      // navigation.replace("ClassListScreen");
     // }, 1000);
 
     // return () => clearTimeout(navigateToHome);
 
     if (!loadingSplahsreen) {
-      navigation.replace("PartnerListScreen");
+      navigation.replace("ClassListScreen");
     }
   }, [loadingSplahsreen])
 
