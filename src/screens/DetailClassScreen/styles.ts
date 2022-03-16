@@ -45,14 +45,20 @@ const styles = StyleSheet.create({
   },
   paginationStyle: {
     backgroundColor: "rgba(0, 0, 0, .4)", 
-    // backgroundColor: "rgba(255, 255, 255, .4)", 
+
     bottom: 0,
     width: "100%", 
     height: theme.sizes.BANNER_HEIGHT / 10
   },
   detailContainer: {
     paddingHorizontal: RFValue(20),
+    paddingVertical: RFValue(15),
     backgroundColor: theme.colors.white,
+  },
+  textTitle: {
+    color: theme.colors.black,
+    fontSize: theme.fontSize["3XL"],
+    fontWeight: "bold",
   },
   logoImgStyle: {
     maxHeight: RFValue(50),
@@ -89,13 +95,21 @@ const styles = StyleSheet.create({
     color: theme.colors.black
   },
 
+  textMaps: {
+    color: theme.colors.black,
+    fontSize: theme.fontSize.XL,
+    fontWeight: "bold",
+    marginLeft: RFValue(20),
+    marginBottom: RFValue(10),
+  },
   mapContainer: {
     flex: 1,
-    marginTop: -RFValue(160),
-    marginBottom: RFValue(80),
+    paddingBottom: RFValue(40),
+    backgroundColor: theme.colors.white,
   },
   mapStyle: {
-    height: theme.sizes.BANNER_HEIGHT
+    height: theme.sizes.BANNER_HEIGHT,
+    elevation: 10,
   },
 
   bookingButtonContainer: {
@@ -103,8 +117,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     justifyContent: "center",
     minHeight: RFValue(60),
-    // borderTopWidth: theme.border.WIDTH,
-    // borderColor: theme.border.COLOR,
     backgroundColor: theme.colors.white,
     padding: RFValue(15),
     paddingVertical: RFValue(20),
@@ -131,6 +143,10 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     marginBottom: theme.space.XL
   },
+  package: {
+    marginRight: RFValue(10),
+    marginBottom: RFValue(10),
+  },
   packageButton: {
     minHeight: theme.sizes.BUTTON_HEIGHT,
     marginRight: 10,
@@ -138,9 +154,28 @@ const styles = StyleSheet.create({
     borderColor: theme.border.COLOR,
     borderWidth: theme.border.WIDTH,
   },
+  textHeaderBottomsheet: {
+    marginVertical: RFValue(15),
+    fontSize: theme.fontSize.XL,
+    color: theme.colors.black,
+    fontWeight: "bold"
+  },
   rightInput: {
-
-  }
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: RFValue(5)
+  },
+  textField: {
+    marginLeft: RFValue(15),
+    flex: 1
+  },
+  textTitleRightInput: {
+    minWidth: RFValue(60),
+    fontSize: theme.fontSize.XL,
+    color: theme.colors.black,
+    fontWeight: "bold"
+  },
 });
 
 export default styles;

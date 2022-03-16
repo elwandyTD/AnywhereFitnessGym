@@ -32,6 +32,8 @@ import EquipmentImage from "Modules/DetailClassScreen/EquipmentImage";
 import BackButton from "App/components/BackButton";
 import ClassImage from "App/components/modules/DetailClassScreen/ClassImage";
 import CustomSwiper from "App/components/modules/DetailClassScreen/CustomSwiper";
+import ButtonTag from "App/components/ButtonTag";
+import TextField from "App/components/TextField";
 
 type DetailClassScreenProps = {
   route: RouteProp<ReactNavigation.RootStackParamList, "DetailClassScreen">;
@@ -56,7 +58,6 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
   }, [item]);
 
   useEffect(() => {
-    // console.log(detailClass);
     console.log(loading, "Loading");
   }, [loading]);
 
@@ -130,11 +131,11 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
               </ViewIcon>
             </View>
             <View style={styles.detailContainer}>
-              <Text style={theme.styles.textTitle}>{detailClass.store?.store_name}</Text>
+              <Text style={styles.textTitle}>{detailClass.store?.store_name}</Text>
               <View style={styles.tagContainer}>
                 {detailClass.types_name && detailClass.category_name && (
                   <>
-                    <Tag text={detailClass.types_name} />
+                    <Tag type="secondary" marginBottom={5} text={detailClass.types_name} />
                     <Tag text={detailClass.category_name} />
                   </>
                 )}
@@ -177,6 +178,7 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
               </View>
             </View>
             <View style={styles.mapContainer}>
+              <Text style={styles.textMaps}>Maps</Text>
               <MapView 
                 // region={{ 
                 //   // latitude: detailClass.store?.store_address?.latitude || 0,
@@ -194,37 +196,36 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
           </View>
           <CustomBottomSheet ref={bottomSheetRef}>
             <View style={styles.bottomsheetContainer}>
-              {/* <View style={styles.packageSection}> */}
-                <Text style={theme.styles.textTitle}>Package</Text>
+                <Text style={{ alignSelf: "center", fontSize: theme.fontSize["4XL"], fontWeight: "bold", color: theme.colors.black, marginBottom: RFValue(15) }}>Choose Your Package</Text>
+                <Text style={[styles.textHeaderBottomsheet]}>Package</Text>
                 <View style={styles.packageList}>
-                  <Button text="30 mnt" style={[styles.packageButton, { backgroundColor: true ? theme.colors.gray : theme.colors.white }]} textStyle={[{ color: true ? theme.colors.darkGray : theme.colors.black }]} />
-                  <Button text="40 mnt" style={[styles.packageButton, { backgroundColor: true ? theme.colors.gray : theme.colors.white }]} textStyle={[{ color: true ? theme.colors.darkGray : theme.colors.black }]} />
-                  <Button text="50 mnt" style={[styles.packageButton, { backgroundColor: true ? theme.colors.gray : theme.colors.white }]} textStyle={[{ color: true ? theme.colors.darkGray : theme.colors.black }]} />
-                  <Button text="50 mnt" style={[styles.packageButton, { backgroundColor: true ? theme.colors.gray : theme.colors.white }]} textStyle={[{ color: true ? theme.colors.darkGray : theme.colors.black }]} />
-                  <Button text="50 mnt" style={[styles.packageButton, { backgroundColor: true ? theme.colors.gray : theme.colors.white }]} textStyle={[{ color: true ? theme.colors.darkGray : theme.colors.black }]} />
+                  {/* <ButtonTag type="transparent" title="30 mnt" /> */}
+                  {["30", "60", "90", "120"].map((text, i) => (
+                    <ButtonTag 
+                      key={i}
+                      type="transparent"
+                      title={`${text} mnt`} 
+                      style={styles.package}
+                    />
+                  ))}
                 </View>
-              {/* </View> */}
               <View style={styles.rightInput}>
-                <Text style={theme.styles.textTitle}>Date</Text>
-                <Pressable>
-                  
-                </Pressable>
-                <DatePicker 
-                  modal
-                  open={open}
-                  date={date}
-                  onConfirm={(date) => {
-                    setOpen(false)
-                    setDate(date)
-                  }}
-                  mode="date"
-                  onCancel={() => {
-                    setOpen(false)
-                  }}
+                <Text style={[styles.textTitleRightInput]}>Date</Text>
+                <TextField 
+                  containerStyle={styles.textField}
+                  label="date"
+                  noLabel 
+                  type="date"
                 />
               </View>
-              <View>
-                <Text>Time</Text>
+              <View style={styles.rightInput}>
+                <Text style={[styles.textTitleRightInput]}>Time</Text>
+                <TextField 
+                  containerStyle={styles.textField}
+                  label="time"
+                  noLabel 
+                  type="select"
+                />
               </View>
               <View>
                 <Text>Price</Text>

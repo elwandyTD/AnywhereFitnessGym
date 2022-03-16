@@ -41,7 +41,7 @@ const PartnerListItem = ({ item, index = 0 }: PartnerListItemProps) => {
           <Text style={styles.title}>{item.content.title}</Text>
         </View>
         <View style={styles.tagsContainer}>
-          <Tag text={item.types_name} />
+          <Tag type="secondary" marginBottom={5} text={item.types_name} />
           <Tag text={item.category_name} />
         </View>
       </View>

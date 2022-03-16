@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { SafeAreaView, ScrollView, Image, View, Text, RefreshControl } from "react-native";
+import { SafeAreaView, ScrollView, Image, View, Text, RefreshControl, BackHandler } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import FEIcon from "react-native-vector-icons/Feather";
@@ -90,6 +90,22 @@ const ClassListScreen = ({ navigation }: Props) => {
       setRefreshing(false);
     }
   }, []);
+
+  // useEffect(() => {
+  //   const backAction = () => {
+  //     if (bottomSheetRef.current) {
+  //       bottomSheetRef.current.close()
+  //       return true;
+  //     }
+  //   };
+
+  //   const backHandler = BackHandler.addEventListener(
+  //     "hardwareBackPress",
+  //     backAction
+  //   );
+
+  //   return () => backHandler.remove();
+  // }, []);
 
   return (
     <SafeAreaView style={styles.wrapper}>

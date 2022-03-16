@@ -44,6 +44,27 @@ const styles = StyleSheet.create({
     top: theme.sizes.INPUT_HEIGHT / 4,
     fontSize: theme.fontSize.XL
   },
+
+  modalContainer: {
+    backgroundColor: theme.colors.backgroundColorMain,
+    borderWidth: 2,
+    borderColor: theme.colors.white,
+    borderRadius: theme.rounded.XL,
+    padding: RFValue(10)
+  },
+  modalTitle: {
+    fontSize: theme.fontSize["3XL"],
+    fontWeight: "600",
+    marginTop: RFValue(5)
+  },
+  modalScrollView: {
+    maxHeight: RFValue(200),
+    marginVertical: RFValue(10)
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  }
 });
 
 export default styles;
