@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { StyleProp, ViewStyle, Pressable, StyleSheet } from "react-native";
-import Animated, { Easing, FadeInDown, Layout, SlideOutLeft, useSharedValue } from "react-native-reanimated";
+import Animated, { Easing, FadeInDown, FadeOutDown, Layout, SlideOutLeft, FadeOut, useSharedValue } from "react-native-reanimated";
 
 import theme from "Theme";
 import { useBackgroundColorEffect, useScallingEffect } from "Hooks/animations";
@@ -60,7 +60,7 @@ const ScalingPressable: React.FC<ScalingPressableProps> = ({
 
   const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-  console.log(index);
+  console.log(index * 100);
 
   return (
     <AnimatedPressable 
@@ -69,8 +69,9 @@ const ScalingPressable: React.FC<ScalingPressableProps> = ({
       onPressIn={_onPressIn}
       onPressOut={_onPressOut}
       style={[style, animatedScalingStyles]}
-      layout={useAnimatedLayout ? Layout.easing(Easing.bounce).delay(index * 100) : undefined}
-      entering={useAnimatedLayout ? FadeInDown : undefined}
+      layout={useAnimatedLayout ? Layout.springify() : undefined}
+      entering={useAnimatedLayout ? FadeInDown.delay(index * 150) : undefined}
+      // exiting={useAnimatedLayout ? FadeOut.delay(index * 150) : undefined}
     >
       {children}
     </AnimatedPressable>

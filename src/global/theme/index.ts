@@ -49,7 +49,9 @@ const colors = {
   darkGray: "#B3B3B3",
   gray: "#E8E8E8",
   green: "#006352",
-  white: "#FFF"
+  white: "#FFF",
+  backgroundColorMain: "#F0F0F0",
+  backgroundColorSecondary: "#999"
 }
 
 const rounded = {

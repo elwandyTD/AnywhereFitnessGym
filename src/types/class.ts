@@ -1,11 +1,11 @@
-type ClassEquipment = {
+export type ClassEquipment = {
   description: string;
   equipment: string;
   id: string;
   image: string;
 }
 
-type ClassImage = {
+export type ClassImage = {
   class_id: string;
   default: boolean;
   id: string;

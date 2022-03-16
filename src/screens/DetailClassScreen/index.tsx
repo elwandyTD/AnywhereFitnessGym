@@ -28,6 +28,10 @@ import ViewIcon from "Modules/DetailClassScreen/ViewIcon";
 import { getClassById } from "Actions/class";
 import { API_URL } from "@env";
 import IconButton from "App/components/IconButton";
+import EquipmentImage from "Modules/DetailClassScreen/EquipmentImage";
+import BackButton from "App/components/BackButton";
+import ClassImage from "App/components/modules/DetailClassScreen/ClassImage";
+import CustomSwiper from "App/components/modules/DetailClassScreen/CustomSwiper";
 
 type DetailClassScreenProps = {
   route: RouteProp<ReactNavigation.RootStackParamList, "DetailClassScreen">;
@@ -38,7 +42,9 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
   const _class = useSelector((state: AppStore.AppState) => state.class);
   const bottomSheetRef = useRef<BottomSheet>(null);
   const dispatch = useDispatch();
+  const [activeImageSection, setActiveImageSection] = useState<"Store" | "Equipment">("Store");
   const [date, setDate] = useState<Date>(new Date());
+  const [imageIndex, setImageIndex] = useState<number>(0);
   const [open, setOpen] = useState<boolean>(false);
   
   const { item } = route.params;
@@ -54,7 +60,9 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
     console.log(loading, "Loading");
   }, [loading]);
 
-  // console.log(detailClass.images);
+  const _onChangeImageSection = (section: "Store" | "Equipment") => {
+    setActiveImageSection(section);
+  }
 
   const source = {
     html: `
@@ -62,53 +70,67 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
   `
   };
 
+
   return (
     <SafeAreaView style={styles.wrapper}>
       { loading ? (
         <Text>Loading</Text>
       ) : (
         <>
-          <View style={styles.logoContainer}>
-            <Image 
-              source={ImageAssets.Logo}
-              resizeMode="contain"
-              style={styles.logoImgStyle}
-            />
-          </View>
           <ScrollView style={styles.container}>
-            <Swiper 
-              style={styles.carouselContainer}
-              key={detailClass.images?.length}
-              removeClippedSubviews={false}
-              paginationStyle={styles.paginationStyle}
-              dotColor={theme.colors.darkGray}
-              activeDotColor={theme.colors.white}
-              dotStyle={styles.dotStyle}
-            >
-              {/* {console.log(detailClass.images)} */}
-              {detailClass?.images ? detailClass.images.map((image) => {
-                return (
-                  <Image
-                    key={image.id}
-                    source={{ uri: `${API_URL}img/file/${image.image}` }}
-                    resizeMode="cover"
-                    style={styles.carouselImgStyle}
-                  />
-                );
-              }) : (
-                <View />
-              )}
-            </Swiper>
+            <View style={styles.logoContainer}>
+              <Image 
+                source={ImageAssets.Logo}
+                resizeMode="contain"
+                style={styles.logoImgStyle}
+              />
+              <BackButton 
+                style={styles.backButton}
+                onPress={() => navigation.goBack()}
+              />
+            </View>
+            {activeImageSection === "Store" ? (
+              <CustomSwiper
+                key={detailClass.images?.length}
+              >
+                {activeImageSection === "Store" && detailClass?.images ? 
+                  detailClass.images.map((image) => (
+                    <ClassImage
+                      key={image.id}
+                      image={image}
+                    />
+                )) : <View /> }
+              </CustomSwiper>
+            ) : (
+              <CustomSwiper 
+                key={detailClass.equipments?.length}
+              >
+                {detailClass?.equipments ? 
+                  detailClass.equipments.map((equipment) => (
+                    <EquipmentImage key={equipment.id} equipment={equipment} />
+                )) : <View /> }
+              </CustomSwiper>
+            )}
             <View style={styles.iconsContainer}>
-              <ViewIcon text="Store" style={styles.iconStyle}>
-                <FtIcon name="shopping-store" size={RFValue(28)} color={theme.colors.black} />
+              <ViewIcon 
+                text="Store" 
+                active={activeImageSection === "Store" ? true : false}
+                style={styles.iconStyle} 
+                onPress={() => _onChangeImageSection("Store")}
+              >
+                <FtIcon name="shopping-store" size={RFValue(28)} color={activeImageSection === "Store" ? theme.colors.white : theme.colors.black} />
               </ViewIcon>
-              <ViewIcon text="Equipment" style={styles.iconStyle}>
-                <FA5Icon name="dumbbell" size={RFValue(28)} color={theme.colors.black} />
+              <ViewIcon 
+                text="Equipment"
+                active={activeImageSection === "Equipment" ? true : false}
+                style={styles.iconStyle} 
+                onPress={() => _onChangeImageSection("Equipment")}
+              >
+                <FA5Icon name="dumbbell" size={RFValue(28)} color={activeImageSection === "Equipment" ? theme.colors.white : theme.colors.black} />
               </ViewIcon>
             </View>
             <View style={styles.detailContainer}>
-              {/* <Text style={styles.textSubtitle}>Modern fitness space for hourly rental.</Text> */}
+              <Text style={theme.styles.textTitle}>{detailClass.store?.store_name}</Text>
               <View style={styles.tagContainer}>
                 {detailClass.types_name && detailClass.category_name && (
                   <>

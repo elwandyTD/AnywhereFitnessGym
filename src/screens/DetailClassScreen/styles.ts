@@ -6,8 +6,13 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
   },
+  backButton: {
+    position: "absolute",
+    top: RFValue(15),
+    left: RFValue(15)
+  },
   container: {
-    backgroundColor: theme.colors.white
+    backgroundColor: theme.colors.backgroundColorMain
   },
   carouselContainer:{
     height: theme.sizes.BANNER_HEIGHT,
@@ -17,7 +22,7 @@ const styles = StyleSheet.create({
     width: undefined
   },
   dotStyle: {
-    backgroundColor: 'rgba(0, 0, 0, .3)',
+    backgroundColor: 'rgba(255, 255, 255, .3)',
     width: 5,
     height: 5,
     borderRadius: 4,
@@ -28,7 +33,8 @@ const styles = StyleSheet.create({
     padding: RFValue(10),
     flex: 1,
     flexDirection: "row",
-    justifyContent: "center"
+    justifyContent: "center",
+    position: "relative",
   },
   iconsContainer: {
     padding: RFValue(20),
@@ -38,13 +44,15 @@ const styles = StyleSheet.create({
     marginRight: RFValue(15)
   },
   paginationStyle: {
-    backgroundColor: "rgba(255, 255, 255, .4)", 
+    backgroundColor: "rgba(0, 0, 0, .4)", 
+    // backgroundColor: "rgba(255, 255, 255, .4)", 
     bottom: 0,
     width: "100%", 
     height: theme.sizes.BANNER_HEIGHT / 10
   },
   detailContainer: {
     paddingHorizontal: RFValue(20),
+    backgroundColor: theme.colors.white,
   },
   logoImgStyle: {
     maxHeight: RFValue(50),
@@ -54,8 +62,6 @@ const styles = StyleSheet.create({
   tagContainer: {
     paddingVertical: RFValue(10),
   },
-  textSubtitle: {},
-  textDescription: {},
   showAllBtn: {
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.black,
@@ -97,11 +103,12 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     justifyContent: "center",
     minHeight: RFValue(60),
-    borderTopWidth: theme.border.WIDTH,
-    borderColor: theme.border.COLOR,
+    // borderTopWidth: theme.border.WIDTH,
+    // borderColor: theme.border.COLOR,
     backgroundColor: theme.colors.white,
     padding: RFValue(15),
     paddingVertical: RFValue(20),
+    elevation: 10
   },
   bookingButton: {
     backgroundColor: theme.colors.green,

@@ -38,13 +38,21 @@ const ClassListScreen = ({ navigation }: Props) => {
   const [keyword, setKeyword] = useState("");
 
   const { categoryList = [] } = _category;
-  const { classList = [] } = _class;
+  const { classList = [], loading } = _class;
   const { typeList = [] } = _type;
 
-  const _onPressSearch = useCallback(() => {
-    const filterBy = _initFilter();
+  const fetchClassList = () => {
+    const filterBy: FilterGetAllClass = {};
 
-    dispatch(getClassList(filterBy))
+    if (tempCategory !== "All") filterBy.category = tempCategory;
+    if (tempType !== "All") filterBy.types = tempType;
+    if (keyword !== "") filterBy.name = keyword;
+
+    dispatch(getClassList(filterBy));
+  }
+
+  const _onPressSearch = useCallback(() => {
+    fetchClassList();
   }, [keyword, dispatch]);
 
   const _onCancelFilter = useCallback(() => {
@@ -58,9 +66,7 @@ const ClassListScreen = ({ navigation }: Props) => {
     setCategory(tempCategory);
     setType(tempType);
 
-    const filterBy = _initFilter();
-
-    dispatch(getClassList(filterBy))
+    fetchClassList();
 
     bottomSheetRef.current?.close();
   }, [tempCategory, tempType]);
@@ -78,18 +84,12 @@ const ClassListScreen = ({ navigation }: Props) => {
   }, []);
 
   const _onRefreshing = useCallback(() => {
-    
+    setRefreshing(true);
+    fetchClassList();
+    if (!loading) {
+      setRefreshing(false);
+    }
   }, []);
-
-  const _initFilter = (): FilterGetAllClass => {
-    const filterBy: FilterGetAllClass = {};
-
-    if (tempCategory !== "All") filterBy.category = tempCategory;
-    if (tempType !== "All") filterBy.types = tempType;
-    if (keyword !== "") filterBy.name = keyword;
-
-    return filterBy;
-  }
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -98,6 +98,7 @@ const ClassListScreen = ({ navigation }: Props) => {
         refreshControl={
           <RefreshControl 
             refreshing={refreshing}
+            onRefresh={_onRefreshing}
           />
         }
       >
