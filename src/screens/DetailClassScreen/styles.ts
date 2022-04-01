@@ -29,11 +29,11 @@ const styles = StyleSheet.create({
     margin: 3
   },
   logoContainer: {
-    minHeight: RFValue(70),
+    // minHeight: RFValue(70),
     padding: RFValue(10),
     flex: 1,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     position: "relative",
   },
   iconsContainer: {
@@ -61,9 +61,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   logoImgStyle: {
-    maxHeight: RFValue(50),
-    maxWidth: RFValue(160),
-    flex: 1,
+    maxHeight: RFValue(60),
+    maxWidth: RFValue(200),
+    marginBottom: 30,
+    alignSelf: "center"
   },
   tagContainer: {
     paddingVertical: RFValue(10),
@@ -176,6 +177,22 @@ const styles = StyleSheet.create({
     color: theme.colors.black,
     fontWeight: "bold"
   },
+  priceContainer: {
+    flex: 1,
+    paddingVertical: RFValue(5),
+    paddingHorizontal: RFValue(15),
+    backgroundColor: theme.colors.backgroundColorMain,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderRadius: 100,
+    minHeight: 40,
+    marginTop: RFValue(15)
+  },
+  priceText: {
+    fontSize: theme.fontSize.LG,
+    color: theme.colors.black
+  }
 });
 
 export default styles;

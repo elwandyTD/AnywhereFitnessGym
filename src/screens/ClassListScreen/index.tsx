@@ -8,7 +8,7 @@ import { SharedElement } from "react-navigation-shared-element";
 
 import styles from "./styles";
 import theme from "Theme";
-import CustomBottomSheet from "Components/CustomBottomSheet";
+import FilterBottomSheet from "Modules/ClassListScreen/FilterBottomSheet";
 import Button from "Components/Button";
 import ImageAssets from "Assets/images";
 import IconButton from "Components/IconButton";
@@ -24,68 +24,49 @@ type Props = {
   navigation: StackNavigationProp<ReactNavigation.RootStackParamList, "ClassListScreen">;
 }
 
+type FilterBottomSheetHandle = React.ElementRef<typeof FilterBottomSheet>;
+
 const ClassListScreen = ({ navigation }: Props) => {
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const dispatch = useDispatch();
-  const _category = useSelector((state: AppStore.AppState) => state.category);
   const _class = useSelector((state: AppStore.AppState) => state.class);
-  const _type = useSelector((state: AppStore.AppState) => state.type);
+  const bottomSheetRef = useRef<FilterBottomSheetHandle>(null);
+  const dispatch = useDispatch();
   const [category, setCategory] = useState("All");
+  const [keyword, setKeyword] = useState("");
   const [refreshing, setRefreshing] = useState(false);
   const [type, setType] = useState("All");
-  const [tempCategory, setTempCategory] = useState("All");
-  const [tempType, setTempType] = useState("All");
-  const [keyword, setKeyword] = useState("");
 
-  const { categoryList = [] } = _category;
   const { classList = [], loading } = _class;
-  const { typeList = [] } = _type;
 
-  const fetchClassList = () => {
-    const filterBy: FilterGetAllClass = {};
-
-    if (tempCategory !== "All") filterBy.category = tempCategory;
-    if (tempType !== "All") filterBy.types = tempType;
+  const _fetchClassList = (filterBy: FilterGetAllClass = { category, types: type }) => {
     if (keyword !== "") filterBy.name = keyword;
 
     dispatch(getClassList(filterBy));
   }
 
-  const _onPressSearch = useCallback(() => {
-    fetchClassList();
-  }, [keyword, dispatch]);
+  const _openFilterBottomSheet = useCallback(() => {
+    if (bottomSheetRef.current) {
+      bottomSheetRef.current.open()
+    }
+  }, [bottomSheetRef]);
 
-  const _onCancelFilter = useCallback(() => {
-    setTempCategory(category);
-    setTempType(type);
-
-    bottomSheetRef.current?.close();
-  }, [category, type, bottomSheetRef]);
-
-  const _onConfirmFilter = useCallback(() => {
-    setCategory(tempCategory);
-    setType(tempType);
-
-    fetchClassList();
-
-    bottomSheetRef.current?.close();
-  }, [tempCategory, tempType]);
-
-  const _onPressCategory = useCallback((newCategory: string) => {
-    setTempCategory(newCategory)
-  }, []);
-
-  const _onPressType = useCallback((newType: string) => {
-    setTempType(newType)
-  }, []);
+  const _onConfirmFilter = useCallback((filterBy: FilterGetAllClass) => {
+    _fetchClassList(filterBy);
+    
+    setCategory(filterBy.category || "All");
+    setType(filterBy.types || "All");
+  }, [category, type]);
 
   const _onChangeSearchInput = useCallback((text: string) => {
     setKeyword(text);
   }, []);
 
+  const _onPressSearch = useCallback(() => {
+    _fetchClassList();
+  }, [keyword, dispatch]);
+
   const _onRefreshing = useCallback(() => {
     setRefreshing(true);
-    fetchClassList();
+    _fetchClassList();
     if (!loading) {
       setRefreshing(false);
     }
@@ -106,6 +87,22 @@ const ClassListScreen = ({ navigation }: Props) => {
 
   //   return () => backHandler.remove();
   // }, []);
+  React.useEffect(() => {
+    const backAction = () => {
+      // bottomSheetRef.current?.close()
+      navigation.goBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => {
+      backHandler.remove();
+    }
+  }, []);
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -140,13 +137,13 @@ const ClassListScreen = ({ navigation }: Props) => {
             onChangeText={_onChangeSearchInput}
           />
           <IconButton 
-            icon={<FEIcon name="search" size={theme.sizes.ICON_SIZE} color={theme.colors.darkGray} />}
+            icon={<FEIcon name="search" size={theme.sizes.ICON_SIZE} color={theme.colors.black} />}
             onPress={_onPressSearch}
             style={{ marginHorizontal: theme.space.MD, }}
           />
           <ButtonTag 
             title="Filter"
-            onPress={() => bottomSheetRef.current?.expand()}
+            onPress={_openFilterBottomSheet}
             // type="primary"
           />
         </View>
@@ -156,75 +153,12 @@ const ClassListScreen = ({ navigation }: Props) => {
           ))}
         </View>
       </ScrollView>
-      <CustomBottomSheet
+      <FilterBottomSheet
         ref={bottomSheetRef}
-      >
-        <View style={[styles.wrapper, styles.bottomsheetContainer]}>
-          <Text style={styles.filterTitle}>Filter</Text>
-          <View style={styles.programSection}>
-            <Text style={theme.styles.textTitle}>Select Type</Text>
-            <View style={styles.programList}>
-              <ButtonTag 
-                title="All"
-                type="transparent"
-                style={styles.programButton}
-                onPress={() =>_onPressType("All")}
-                active={tempType === "All"}
-              />
-              {typeList.map((item) => (
-                <ButtonTag 
-                  key={item.id}
-                  title={item.name}
-                  type="transparent"
-                  style={styles.programButton}
-                  onPress={() =>_onPressType(item.name)}
-                  active={tempType === item.name}
-                />
-              ))}
-            </View>
-          </View>
-          <View style={styles.classSection}>
-            <Text style={theme.styles.textTitle}>Select Category</Text>
-            <View style={styles.classList}>
-              <ButtonTag 
-                active={tempCategory === "All"}
-                onPress={() => _onPressCategory("All")}
-                style={styles.classButton}
-                title="All"
-                type="transparent"
-              />
-              {categoryList.map((item) => {
-                return (
-                  <ButtonTag
-                    active={tempCategory === item.name}
-                    key={item.id}
-                    onPress={() => _onPressCategory(item.name)}
-                    style={styles.classButton}
-                    title={item.name}
-                    type="transparent"
-                  />
-                )
-              })}
-            </View>
-          </View>
-          <View style={styles.buttonsSection}>
-            <ButtonTag 
-              title="Cancel"
-              type="primary"
-              size="lg"
-              onPress={_onCancelFilter}
-              style={{ marginRight: 5 }}
-            />
-            <ButtonTag 
-              title="Confirm"
-              type="primary"
-              size="lg"
-              onPress={_onConfirmFilter}
-              style={{ marginLeft: 5 }}
-            />
-          </View>
-        </View>
-      </CustomBottomSheet>
+        onConfirm={_onConfirmFilter}
+        category={category}
+        type={type}
+      />
     </SafeAreaView>
   );
 }

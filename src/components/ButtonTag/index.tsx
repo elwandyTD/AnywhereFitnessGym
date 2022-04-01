@@ -37,6 +37,7 @@ const ButtonTag = ({ title, size = "md", type = "default", containerStyle, style
 
         if (active) {
           button.push(styles.transparentActive);
+          text.push(styles.textTransparentActive);
         }
       break;
       case "primary":

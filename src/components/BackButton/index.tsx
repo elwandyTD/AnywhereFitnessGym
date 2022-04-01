@@ -1,9 +1,9 @@
 import React from "react";
+import { StyleProp, Text, ViewStyle } from "react-native";
 import FAIcon from "react-native-vector-icons/FontAwesome";
 
 import styles from "./style";
 import ScalingPressable from "../Animated/ScalingPressable";
-import { StyleProp, ViewStyle } from "react-native";
 
 type BackButtonProps = {
   style?: StyleProp<ViewStyle>
@@ -18,9 +18,10 @@ const BackButton = ({ style, onPress }: BackButtonProps) => {
     >
       <FAIcon 
         name="chevron-left" 
-        size={14}
+        size={10}
         style={styles.iconStyle}
       />
+      <Text style={styles.textStyle}>一覧へ</Text>
     </ScalingPressable>
   );
 }

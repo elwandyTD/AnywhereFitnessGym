@@ -4,17 +4,23 @@ import { RFValue } from "react-native-responsive-fontsize";
 
 const styles = StyleSheet.create({
   buttonStyle: {
-    width: RFValue(40),
-    height: RFValue(40),
+    width: RFValue(100),
+    height: RFValue(45),
     borderWidth: 1.5,
     borderRadius: RFValue(40),
     backgroundColor: theme.colors.white,
-    borderColor: theme.colors.backgroundColorSecondary,
+    borderColor: theme.colors.black,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    flexDirection: "row"
   },
   iconStyle: {
-    color: theme.colors.backgroundColorSecondary
+    color: theme.colors.black
+  },
+  textStyle: {
+    color: theme.colors.black,
+    fontSize: theme.fontSize.MD,
+    marginLeft: RFValue(8)
   }
 });
 

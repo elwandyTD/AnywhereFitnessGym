@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.white,
   },
   buttonActive: {
-    backgroundColor: theme.colors.backgroundColorSecondary,
+    backgroundColor: theme.colors.black,
     borderColor: theme.colors.white,
     borderWidth: 2,
   },

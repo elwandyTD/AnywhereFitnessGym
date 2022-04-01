@@ -14,6 +14,7 @@ type SelectItemProps = {
   },
   active: boolean;
   disabled: boolean;
+  onPress(value: string): void 
 }
 
 type RenderStyleProps = {

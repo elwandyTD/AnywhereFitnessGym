@@ -12,7 +12,7 @@ export type ClassImage = {
   image: string;
 }
 
-type ClassPriceDetail = {
+export type ClassPriceDetail = {
   discount_from_date: string;
   discount_price: string;
   discount_until_date: string;
@@ -29,7 +29,7 @@ type ClassHourlyPriceDetail = {
 
 type ClassDataPrice = {
   hourly?: ClassHourlyPriceDetail;
-  montly?: {
+  monthly?: {
     1200: ClassHourlyPriceDetail
   }
 }
@@ -59,15 +59,22 @@ export type DetailClassModel = {
   training?: {
     id?: string;
     detail?: {
-      monday?: {
-        end_hours?: string;
-        start_hours?: string;
-      },
-      sunday?: {
+      [key: string]: {
         end_hours?: string;
         start_hours?: string;
       }
     },
+    // detail?: any,
+    // {
+    //   monday?: {
+    //     end_hours?: string;
+    //     start_hours?: string;
+    //   },
+    //   sunday?: {
+    //     end_hours?: string;
+    //     start_hours?: string;
+    //   }
+    // },
     class_id?: string;
     term_condition?: string;
   },

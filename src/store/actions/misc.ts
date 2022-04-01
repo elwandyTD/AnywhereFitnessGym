@@ -28,12 +28,12 @@ export const initProject = () => {
 
       const req = Promise.all(requests);
 
-      req.then((resArr) => {
+      req.then((_) => {
         dispatch(setState({ loadingSplahsreen: false, firstLoad: true }));
       });
 
       req.catch(e => {
-        console.log(e)
+        console.log(e, "Error")
       });
     } catch (e) {
       console.log(e, "MISC");

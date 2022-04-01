@@ -60,8 +60,6 @@ const ScalingPressable: React.FC<ScalingPressableProps> = ({
 
   const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-  console.log(index * 100);
-
   return (
     <AnimatedPressable 
       onPress={_onPress}

@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     minWidth: theme.sizes.ICON_BUTTON_SIZE,
     height: theme.sizes.ICON_BUTTON_SIZE,
     borderWidth: theme.border.WIDTH,
-    borderColor: theme.border.COLOR,
+    borderColor: theme.colors.black,
     borderRadius: theme.rounded.FULL,
     flex: 1,
     alignItems: "center",

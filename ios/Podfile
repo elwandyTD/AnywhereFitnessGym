@@ -16,6 +16,8 @@ target 'AnywhereFitnessGym' do
 
   pod 'react-native-date-picker', :path => '../node_modules/react-native-date-picker'
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   target 'AnywhereFitnessGymTests' do
     inherit! :complete
     # Pods for testing

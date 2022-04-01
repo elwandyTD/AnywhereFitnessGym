@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   text: {
     paddingVertical: 5,
     paddingHorizontal: 10,
-    backgroundColor: "rgba(0, 0, 0, .4)",
+    backgroundColor: "rgba(0, 0, 0, .9)",
     fontSize: theme.fontSize.LG,
     color: theme.colors.white,
     position: "absolute",

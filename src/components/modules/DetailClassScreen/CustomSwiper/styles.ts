@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     margin: 3
   },
   paginationStyle: {
-    backgroundColor: "rgba(0, 0, 0, .4)", 
+    backgroundColor: "rgba(0, 0, 0, .7)", 
     bottom: 0,
     width: "100%", 
     height: theme.sizes.BANNER_HEIGHT / 10

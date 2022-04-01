@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image } from "react-native";
 
 import styles from "./styles";
@@ -10,6 +10,10 @@ type ClassImageProps = {
 }
 
 const ClassImage = ({ image }: ClassImageProps) => {
+  useEffect(() => {   
+    console.log(image);
+  }, []);
+  
   return (
     <Image 
       key={image.id}

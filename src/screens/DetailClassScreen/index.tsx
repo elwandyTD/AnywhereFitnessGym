@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Image, Pressable, SafeAreaView, StyleSheet, Text, View, useWindowDimensions, Dimensions } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from "react-redux";
 import RenderHtml from 'react-native-render-html';
 import FEIcon from "react-native-vector-icons/Feather";
 
-
 import styles from "./styles";
 import theme from "Theme";
 import Button from "Components/Button";
@@ -34,10 +33,20 @@ import ClassImage from "App/components/modules/DetailClassScreen/ClassImage";
 import CustomSwiper from "App/components/modules/DetailClassScreen/CustomSwiper";
 import ButtonTag from "App/components/ButtonTag";
 import TextField from "App/components/TextField";
+import { ClassPriceDetail } from "App/types/class";
+import moment from "moment";
+import ReadMore from "App/components/ReadMore";
+import OpenTimeList from "App/components/modules/DetailClassScreen/OpenTimeList";
+import { normalizeDateNumber } from "App/utils/format";
 
 type DetailClassScreenProps = {
   route: RouteProp<ReactNavigation.RootStackParamList, "DetailClassScreen">;
   navigation: StackNavigationProp<ReactNavigation.RootStackParamList, "DetailClassScreen">;
+}
+
+type CustomClassPriceDetail = ClassPriceDetail & {
+  type: string;
+  number: string;
 }
 
 const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
@@ -45,13 +54,78 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const dispatch = useDispatch();
   const [activeImageSection, setActiveImageSection] = useState<"Store" | "Equipment">("Store");
-  const [date, setDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<Date | null>(null);
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [open, setOpen] = useState<boolean>(false);
+  const [selectedPackage, setSelectedPackage] = useState<CustomClassPriceDetail | null>(null);
   
   const { item } = route.params;
   const { detailClass, loading } = _class;
   const { width } = useWindowDimensions();
+
+  const days = useMemo(() => ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"], []);
+
+  const packageList: CustomClassPriceDetail[] = useMemo(() => {
+    const hourlyPrice: {[key: string]: ClassPriceDetail} = JSON.parse(JSON.stringify(detailClass.price?.hourly || {}));
+    const monthlyPrice: {[key: string]: ClassPriceDetail} = JSON.parse(JSON.stringify(detailClass.price?.monthly || {}));
+    const list = {...hourlyPrice, ...monthlyPrice}
+    
+    const updatedList: CustomClassPriceDetail[] = Object.keys(list).map((val) => {
+      const item: any = {};
+      if (Object.keys(hourlyPrice).includes(val)) {
+        item.type = "hourly";
+      } else {
+        item.type = "monthly";
+      }
+      item.number = val;
+
+      return Object.assign(item, list[val]);
+    });
+    return updatedList;
+  }, [detailClass]);
+
+  const generateFullBookingTime = useMemo(() => {
+    const dateNow = moment();
+    const dayNow: string = days[dateNow.day()] || "monday";
+    
+    if (detailClass.training?.detail) {
+      const dateClassNow = detailClass.training.detail[dayNow] || "monday";
+      const startTime = moment(`${dateNow.format("YYYY-MM-DD")}T${dateClassNow.start_hours}:00`);
+      const endTime = moment(`${dateNow.format("YYYY-MM-DD")}T${dateClassNow.end_hours}:00`);
+      const listFullTime = [];
+      // console.log(startDate, endDate, "Format");
+      // let val1 = startTime.clone();
+      // let val2 = val1.clone().add("minute", 10);
+      // console.log(val1, val2, "VAl 1");
+      // console.log(`${val1.hours()}:${normalizeDateNumber(val1.minutes().toString())}`, `${val2.hours()}:${val2.minutes()}`, "VAl 1");
+      
+      // val1 = val2.clone();
+      // val2 = val1.clone().add("minute", 10);
+      // console.log(val1, val2, "VAl 1");
+      
+      // val1 = val2.clone();
+      // val2 = val1.clone().add("minute", 10);
+      // console.log(val1, val2, "VAl 1");
+      
+      // val1 = val2.clone();
+      // val2 = val1.clone().add("minute", 10);
+      // console.log(val1, val2, "VAl 1");
+
+      // while (val1 < endTime) {
+      //   val1 = val2.clone();
+      //   val2 = val1.clone().add("minute", Number(detailClass.buffer_time || 10));
+      //   console.log(`${val1.hours()}:${normalizeDateNumber(val1.minutes().toString())}`, `${val2.hours()}:${val2.minutes()}`, "VAl 1");
+      // }
+      // console.log(endTime)
+
+      return detailClass.buffer_time;
+    }
+    
+    return [];
+  }, [detailClass]);
+
+  console.log(generateFullBookingTime, "Full Time");
+  console.log(detailClass.training?.detail, "Date");
 
   useEffect(() => {
     dispatch(getClassById(item.id));
@@ -61,16 +135,23 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
     console.log(loading, "Loading");
   }, [loading]);
 
-  const _onChangeImageSection = (section: "Store" | "Equipment") => {
+  const _onChangeImageSection = useCallback((section: "Store" | "Equipment") => {
     setActiveImageSection(section);
-  }
+  }, [])
 
-  const source = {
-    html: `
-  <ul class=\"multicolumn-list grid grid--1-col grid--3-col-tablet\" id=\"Slider-template--15559670661361__1641868266cc7431a6\" role=\"list\" style=\"box-sizing: inherit; display: flex; flex-wrap: wrap; margin-bottom: 0px; margin-left: -1rem; padding: 0px; list-style: none; color: rgba(214, 0, 28, 0.75); font-family: Helvetica; letter-spacing: 0.525px;\"><li id=\"Slide-template--15559670661361__1641868266cc7431a6-1\" class=\"multicolumn-list__item grid__item\" style=\"box-sizing: inherit; padding-left: 0px !important; padding-bottom: 0px; width: calc(33.33% - 0.666667rem); max-width: 100%; flex-grow: 1; flex-shrink: 0;\"><div class=\"multicolumn-card\" style=\"box-sizing: inherit; background: rgba(var(--color-foreground),0.04); height: 872.338px;\"><div class=\"multicolumn-card__info\" style=\"box-sizing: inherit; padding: 2.5rem;\"><h3 style=\"box-sizing: inherit; font-family: var(--font-heading-family); font-style: var(--font-heading-style); font-weight: var(--font-heading-weight); letter-spacing: calc(var(--font-heading-scale) * 0.06rem); line-height: calc(1 + 0.5/max(1,var(--font-heading-scale))); font-size: calc(var(--font-heading-scale) * 1.8rem); margin-right: 0px; margin-bottom: 0px; margin-left: 0px;\">WHY ANYWHERE FITNESS?</h3><div class=\"rte\" style=\"box-sizing: inherit; color: black; margin-top: 1rem;\"><p style=\"box-sizing: inherit; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;\"><strong style=\"box-sizing: inherit;\">Anywhere Fitness provides rental space for trainers and clients at their disposal.</strong></p><br style=\"box-sizing: inherit;\"><p style=\"box-sizing: inherit; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;\">Anywhere Fitness provides the space for the best user experience.</p><ul style=\"box-sizing: inherit; padding-left: 5rem;\"><li style=\"box-sizing: inherit; list-style: inherit;\">Private studio with state-of-the-art fitness equipment</li><li style=\"box-sizing: inherit; list-style: inherit;\">Free acoustic space</li><li style=\"box-sizing: inherit; list-style: inherit; margin-bottom: 0px;\">Wider size than traditional 1K type gyms</li></ul><br style=\"box-sizing: inherit;\"><p style=\"box-sizing: inherit; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;\">Convenient payment, hassle-free admission system</p><br style=\"box-sizing: inherit;\"><p style=\"box-sizing: inherit; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;\">Anywhere Fitness reduces the trainer's business risk</p><ul style=\"box-sizing: inherit; padding-left: 5rem;\"><li style=\"box-sizing: inherit; list-style: inherit;\">No lease agreement required</li><li style=\"box-sizing: inherit; list-style: inherit;\">No maintenance costs</li><li style=\"box-sizing: inherit; list-style: inherit;\">No insurance required</li><li style=\"box-sizing: inherit; list-style: inherit; margin-bottom: 0px;\">No other fixed costs required</li></ul><br style=\"box-sizing: inherit;\"><p style=\"box-sizing: inherit; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;\">Anywhere Fitness provides the best personal fitness space for trainers to provide the best service to their clients.</p></div></div></div></li></ul>
-  `
-  };
+  const _onSelectedPackage =  useCallback((item: CustomClassPriceDetail) => {
+    console.log(selectedPackage?.number, item.number)
+    if (!selectedPackage || (selectedPackage && selectedPackage.number !== item.number)) {
+      setSelectedPackage(item);
+      return;
+    }
+    
+    setSelectedPackage(null);
+  }, [selectedPackage]);
 
+  const _onConfirmDate = useCallback((date: Date) => {
+    setDate(date)
+  }, [date]);
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -80,13 +161,7 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
         <>
           <ScrollView style={styles.container}>
             <View style={styles.logoContainer}>
-              <Image 
-                source={ImageAssets.Logo}
-                resizeMode="contain"
-                style={styles.logoImgStyle}
-              />
               <BackButton 
-                style={styles.backButton}
                 onPress={() => navigation.goBack()}
               />
             </View>
@@ -131,6 +206,11 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
               </ViewIcon>
             </View>
             <View style={styles.detailContainer}>
+              <Image 
+                source={ImageAssets.Logo}
+                resizeMode="contain"
+                style={styles.logoImgStyle}
+              />
               <Text style={styles.textTitle}>{detailClass.store?.store_name}</Text>
               <View style={styles.tagContainer}>
                 {detailClass.types_name && detailClass.category_name && (
@@ -140,14 +220,14 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
                   </>
                 )}
               </View>
-              <View>
-                {/* <Text style={styles.textDescription}>{detailClass.description}</Text> */}
+              <ReadMore
+                minimazeTo={10}
+              >
                 <RenderHtml 
                   contentWidth={width}
-                  source={source}
+                  source={{ html: item.content.description || "" }}
                 />
-              </View>
-              <Text style={styles.showAllBtn} >Show All</Text>
+              </ReadMore>
 
               <View style={styles.detailList}>
                 <View style={styles.detailListItem}>
@@ -168,12 +248,9 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
                   <SLIIcon name="size-fullscreen" size={22} style={styles.detailIconStyle} />
                   <Text style={styles.detailTextStyle}>{detailClass.breadth} m</Text>
                 </View>
-                <View style={styles.detailListItem}>
-                  <MIIcon name="access-time" size={22} style={styles.detailIconStyle} />
-                  <Text style={styles.detailTextStyle}>
-                    Sunday
-                    <Text style={{ marginLeft: 5 }}>09:00 AM - 09:00 PM</Text>
-                  </Text>
+                <View style={[styles.detailListItem]}>
+                  <MIIcon name="access-time" size={22} style={[styles.detailIconStyle, { alignSelf: "flex-start" }]} />
+                  <OpenTimeList />
                 </View>
               </View>
             </View>
@@ -199,13 +276,14 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
                 <Text style={{ alignSelf: "center", fontSize: theme.fontSize["4XL"], fontWeight: "bold", color: theme.colors.black, marginBottom: RFValue(15) }}>Choose Your Package</Text>
                 <Text style={[styles.textHeaderBottomsheet]}>Package</Text>
                 <View style={styles.packageList}>
-                  {/* <ButtonTag type="transparent" title="30 mnt" /> */}
-                  {["30", "60", "90", "120"].map((text, i) => (
+                  {packageList.map((item, i) => (
                     <ButtonTag 
                       key={i}
+                      active={item.number === selectedPackage?.number || false}
                       type="transparent"
-                      title={`${text} mnt`} 
+                      title={`${item.number} mnt`} 
                       style={styles.package}
+                      onPress={() => _onSelectedPackage(item)}
                     />
                   ))}
                 </View>
@@ -216,6 +294,9 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
                   label="date"
                   noLabel 
                   type="date"
+                  value={date?.toISOString() || ''}
+                  minimumDate={moment(new Date()).add(1, 'day').toDate()}
+                  onConfirmDate={_onConfirmDate}
                 />
               </View>
               <View style={styles.rightInput}>
@@ -227,8 +308,9 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
                   type="select"
                 />
               </View>
-              <View>
-                <Text>Price</Text>
+              <View style={styles.priceContainer}>
+                <Text style={styles.priceText}>価格</Text> 
+                <Text style={styles.priceText}>JPY {selectedPackage?.discount_price || 0}</Text> 
               </View>
               <View>
                 <Text>Checkout</Text>

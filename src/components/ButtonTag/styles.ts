@@ -23,21 +23,24 @@ const styles = StyleSheet.create({
 
   },
   default: {
-    borderColor: theme.colors.darkGray,
-    backgroundColor: theme.colors.darkGray
+    borderColor: theme.colors.black,
+    backgroundColor: theme.colors.black
   },
   textDefault: {
     color: theme.colors.white
   },
   transparent: {
-    borderColor: theme.colors.darkGray,
+    borderColor: theme.colors.black,
     backgroundColor: "transparent"
   },
   textTransparent: {
-    color: theme.colors.darkGray
+    color: theme.colors.black
   },
   transparentActive: {
-    backgroundColor: theme.colors.gray
+    backgroundColor: theme.colors.black
+  },
+  textTransparentActive: {
+    color: theme.colors.white
   },
   primary: {
     borderColor: theme.colors.green,

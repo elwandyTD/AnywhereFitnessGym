@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     height: theme.sizes.INPUT_HEIGHT,
     borderRadius: theme.sizes.INPUT_HEIGHT,
     borderWidth: theme.border.WIDTH,
-    borderColor: theme.border.COLOR,
+    borderColor: theme.colors.black,
     paddingHorizontal: theme.space.LG,
     paddingVertical: 0,
     fontSize: theme.sizes.INPUT_FONT_SIZE

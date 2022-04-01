@@ -1,5 +1,5 @@
 import { API_URL } from "@env";
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, ImageBackground, Text, View } from "react-native";
 
 import styles from "./styles";
