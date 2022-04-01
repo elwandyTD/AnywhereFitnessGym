@@ -17,6 +17,8 @@
     "@types/crypto-js": "^4.1.1",
     "axios": "^0.26.0",
     "crypto-js": "^4.1.1",
+    "lottie-ios": "3.2.3",
+    "lottie-react-native": "^5.0.1",
     "moment": "^2.29.1",
     "react": "17.0.2",
     "react-native": "0.67.2",

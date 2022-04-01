@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ButtonTag from "App/components/ButtonTag";
 import { getClassList } from "Actions/class";
 import { FilterGetAllClass } from "Types/class";
+import Alert, { AlertHandle } from "App/components/Alert";
 
 type Props = {
   route: RouteProp<ReactNavigation.RootStackParamList, "ClassListScreen">;
@@ -28,6 +29,7 @@ type FilterBottomSheetHandle = React.ElementRef<typeof FilterBottomSheet>;
 
 const ClassListScreen = ({ navigation }: Props) => {
   const _class = useSelector((state: AppStore.AppState) => state.class);
+  const alertRef = useRef<AlertHandle>(null);
   const bottomSheetRef = useRef<FilterBottomSheetHandle>(null);
   const dispatch = useDispatch();
   const [category, setCategory] = useState("All");
@@ -61,8 +63,9 @@ const ClassListScreen = ({ navigation }: Props) => {
   }, []);
 
   const _onPressSearch = useCallback(() => {
-    _fetchClassList();
-  }, [keyword, dispatch]);
+    // _fetchClassList();
+    alertRef.current?.open();
+  }, []);
 
   const _onRefreshing = useCallback(() => {
     setRefreshing(true);
@@ -158,6 +161,9 @@ const ClassListScreen = ({ navigation }: Props) => {
         onConfirm={_onConfirmFilter}
         category={category}
         type={type}
+      />
+      <Alert
+        ref={alertRef}
       />
     </SafeAreaView>
   );
