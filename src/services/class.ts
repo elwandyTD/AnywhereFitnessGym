@@ -5,7 +5,8 @@ import { objectToUrlQuery } from "App/utils/format";
 import { FilterGetAllClass } from "Types/class";
 
 export const getAll = (filterBy?: FilterGetAllClass, config?: AxiosRequestConfig<any>) => {
-  const query = Object.keys(filterBy || {}).length > 0 ? "?" + objectToUrlQuery(filterBy) : "";
+  const query = "";
+  // const query = Object.keys(filterBy || {}).length > 0 ? "?" + objectToUrlQuery(filterBy) : "";
 
   return apiFunc(`/class${query}`, "GET", config);
 }

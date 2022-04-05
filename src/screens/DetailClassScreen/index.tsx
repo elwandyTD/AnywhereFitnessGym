@@ -20,7 +20,7 @@ import FEIcon from "react-native-vector-icons/Feather";
 import styles from "./styles";
 import theme from "Theme";
 import Button from "Components/Button";
-import CustomBottomSheet from "Components/CustomBottomSheet";
+import CustomBottomSheet, { CustomBottomSheetHandle } from "Components/CustomBottomSheet";
 import ImageAssets from "Assets/images";
 import Tag from "Components/Tag";
 import ViewIcon from "Modules/DetailClassScreen/ViewIcon";
@@ -37,6 +37,7 @@ import { ClassPriceDetail } from "App/types/class";
 import moment from "moment";
 import ReadMore from "App/components/ReadMore";
 import OpenTimeList from "App/components/modules/DetailClassScreen/OpenTimeList";
+import BookingBottomSheet, { BookingBottomHandle } from "App/components/modules/DetailClassScreen/BookingBottomSheet";
 import { normalizeDateNumber } from "App/utils/format";
 
 type DetailClassScreenProps = {
@@ -51,10 +52,10 @@ type CustomClassPriceDetail = ClassPriceDetail & {
 
 const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
   const _class = useSelector((state: AppStore.AppState) => state.class);
-  const bottomSheetRef = useRef<BottomSheet>(null);
+  const bottomSheetRef = useRef<BookingBottomHandle>(null);
   const dispatch = useDispatch();
   const [activeImageSection, setActiveImageSection] = useState<"Store" | "Equipment">("Store");
-  const [date, setDate] = useState<Date | null>(null);
+  const [date, setDate] = useState<string | null>(null);
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [open, setOpen] = useState<boolean>(false);
   const [selectedPackage, setSelectedPackage] = useState<CustomClassPriceDetail | null>(null);
@@ -64,25 +65,6 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
   const { width } = useWindowDimensions();
 
   const days = useMemo(() => ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"], []);
-
-  const packageList: CustomClassPriceDetail[] = useMemo(() => {
-    const hourlyPrice: {[key: string]: ClassPriceDetail} = JSON.parse(JSON.stringify(detailClass.price?.hourly || {}));
-    const monthlyPrice: {[key: string]: ClassPriceDetail} = JSON.parse(JSON.stringify(detailClass.price?.monthly || {}));
-    const list = {...hourlyPrice, ...monthlyPrice}
-    
-    const updatedList: CustomClassPriceDetail[] = Object.keys(list).map((val) => {
-      const item: any = {};
-      if (Object.keys(hourlyPrice).includes(val)) {
-        item.type = "hourly";
-      } else {
-        item.type = "monthly";
-      }
-      item.number = val;
-
-      return Object.assign(item, list[val]);
-    });
-    return updatedList;
-  }, [detailClass]);
 
   const generateFullBookingTime = useMemo(() => {
     const dateNow = moment();
@@ -124,9 +106,6 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
     return [];
   }, [detailClass]);
 
-  console.log(generateFullBookingTime, "Full Time");
-  console.log(detailClass.training?.detail, "Date");
-
   useEffect(() => {
     dispatch(getClassById(item.id));
   }, [item]);
@@ -138,20 +117,6 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
   const _onChangeImageSection = useCallback((section: "Store" | "Equipment") => {
     setActiveImageSection(section);
   }, [])
-
-  const _onSelectedPackage =  useCallback((item: CustomClassPriceDetail) => {
-    console.log(selectedPackage?.number, item.number)
-    if (!selectedPackage || (selectedPackage && selectedPackage.number !== item.number)) {
-      setSelectedPackage(item);
-      return;
-    }
-    
-    setSelectedPackage(null);
-  }, [selectedPackage]);
-
-  const _onConfirmDate = useCallback((date: Date) => {
-    setDate(date)
-  }, [date]);
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -269,54 +234,11 @@ const DetailClassScreen = ({ navigation, route }: DetailClassScreenProps) => {
             </View>
           </ScrollView>
           <View style={styles.bookingButtonContainer}>
-            <Button text="Booking" onPress={() => bottomSheetRef.current?.expand()} style={styles.bookingButton} />
+            <Button text="Booking" onPress={() => bottomSheetRef.current?.open()} style={styles.bookingButton} />
           </View>
-          <CustomBottomSheet ref={bottomSheetRef}>
-            <View style={styles.bottomsheetContainer}>
-                <Text style={{ alignSelf: "center", fontSize: theme.fontSize["4XL"], fontWeight: "bold", color: theme.colors.black, marginBottom: RFValue(15) }}>Choose Your Package</Text>
-                <Text style={[styles.textHeaderBottomsheet]}>Package</Text>
-                <View style={styles.packageList}>
-                  {packageList.map((item, i) => (
-                    <ButtonTag 
-                      key={i}
-                      active={item.number === selectedPackage?.number || false}
-                      type="transparent"
-                      title={`${item.number} mnt`} 
-                      style={styles.package}
-                      onPress={() => _onSelectedPackage(item)}
-                    />
-                  ))}
-                </View>
-              <View style={styles.rightInput}>
-                <Text style={[styles.textTitleRightInput]}>Date</Text>
-                <TextField 
-                  containerStyle={styles.textField}
-                  label="date"
-                  noLabel 
-                  type="date"
-                  value={date?.toISOString() || ''}
-                  minimumDate={moment(new Date()).add(1, 'day').toDate()}
-                  onConfirmDate={_onConfirmDate}
-                />
-              </View>
-              <View style={styles.rightInput}>
-                <Text style={[styles.textTitleRightInput]}>Time</Text>
-                <TextField 
-                  containerStyle={styles.textField}
-                  label="time"
-                  noLabel 
-                  type="select"
-                />
-              </View>
-              <View style={styles.priceContainer}>
-                <Text style={styles.priceText}>価格</Text> 
-                <Text style={styles.priceText}>JPY {selectedPackage?.discount_price || 0}</Text> 
-              </View>
-              <View>
-                <Text>Checkout</Text>
-              </View>
-            </View>
-          </CustomBottomSheet>
+          <BookingBottomSheet 
+            ref={bottomSheetRef}
+          />
         </>
       )}
     </SafeAreaView>

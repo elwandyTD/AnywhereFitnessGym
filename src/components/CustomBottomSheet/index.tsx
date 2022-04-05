@@ -10,8 +10,7 @@ interface CustomBottomSheetProps {
   onChange?(index: number): void;
   snapPoints?: (string | number)[];
 }
-
-interface CustomBottomSheetHandle {
+export interface CustomBottomSheetHandle {
   expand(): void;
   close(): void;
   status: number;

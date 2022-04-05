@@ -47,8 +47,6 @@ const styles = StyleSheet.create({
 
   modalContainer: {
     backgroundColor: theme.colors.backgroundColorMain,
-    // borderWidth: 2,
-    // borderColor: theme.colors.white,
     borderRadius: theme.rounded.XL,
     padding: RFValue(10)
   },

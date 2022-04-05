@@ -1,25 +1,29 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Text, View } from "react-native";
+import React, { useCallback, useEffect, useMemo } from "react";
 import moment from "moment";
-import { Calendar, CalendarProps, DateData } from "react-native-calendars";
+import { Calendar, DateData } from "react-native-calendars";
 
 import theme from "Theme";
 import Day from "./Day";
+import { View } from "react-native";
+interface CalenderProps {
+  valueDate: string | null;
+  onChangeDay(date: string): void;
+}
 
-const Calender = () => {
-  const [selected, setSelected] = useState<string | null>(null);
-  const [disabledDays, setDisabledDays] = useState<{[key: string]: any}>({});
-  const [dateMonth, setDateMonth] = useState<number>(moment().month());
+const Calender = ({ onChangeDay, valueDate }: CalenderProps) => {
+  const generateTodayDate = useMemo(() => {
+    return moment().format("YYYY-MM-DD");
+  }, []);
 
-  const checkDay = (label: string = "", date: (string & DateData) | undefined): boolean => {
-    if (label.split(" ")[1] === "Sunday" || date?.month) {
+  const checkDay = useCallback((label: string = "", date: (string & DateData) | undefined): boolean => {
+    if ((label.split(" ")[1] === "Sunday") || ((date?.dateString || "") < generateTodayDate)) {
       return true;
     }
 
     return false;
-  }
+  }, []);
 
-  const getDaysInMonths = (month: number, year: number, daysIndexes: number[] = [7]) => {
+  const getDaysInMonths = useCallback((month: number, year: number, daysIndexes: number[] = [7]) => {
     let pivot = moment().month(month).year(year).startOf("month");
     const end = moment().month(month).year(year).endOf("month");
     let dates: {[key: string]: any} = {};
@@ -31,32 +35,26 @@ const Calender = () => {
       });
       pivot.add(7, "days");
     }
-    setDisabledDays(dates);
-  }
+  }, []);
 
   useEffect(() => {
     getDaysInMonths(moment().month(), moment().year());
   }, []);
 
-  const onDayPress: CalendarProps["onDayPress"] = useCallback(day => {
-    setSelected(day.dateString);
-  }, []);
-
   return (
     <Calendar
-      minDate="2022-03-28"
-      onDayPress={onDayPress}
+      minDate={generateTodayDate}
       enableSwipeMonths
-      // hideExtraDays
+      hideExtraDays
       dayComponent={({ accessibilityLabel, date, state }) => {
         const isDisabled = checkDay(accessibilityLabel, date);
 
         return (
           <Day 
             date={date}
-            active={false}
+            active={valueDate === (date?.dateString || "")}
             disabled={isDisabled}
-            onPress={() => {}}
+            onPress={onChangeDay}
           />
         );
       }}
@@ -73,11 +71,8 @@ const Calender = () => {
         overflow: "hidden"
       }}
       onMonthChange={(date) => {
-        console.log(date, "CHANGE")
         getDaysInMonths(date.month - 1, date.year);
       }}
-      // markedDates={disabledDays}
-      // markedDates={{...disabledDays, ...marked}}
     />
   )
 }

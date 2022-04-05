@@ -8,7 +8,7 @@ import ScalingPressable from "Components/Animated/ScalingPressable";
 interface DayProps {
   active: boolean;
   date: (string & DateData) | undefined;
-  onPress(): void;
+  onPress(date: string): void;
   disabled: boolean;
 }
 
@@ -16,7 +16,7 @@ type RenderStyleProps = {
   text: StyleProp<TextStyle>;
 }
 
-const Day = ({ active, disabled, date }: DayProps) => {
+const Day = ({ active, disabled, date, onPress }: DayProps) => {
   const renderStyle: RenderStyleProps = useMemo(() => {
     const text: StyleProp<TextStyle> = [styles.day];
 
@@ -34,6 +34,7 @@ const Day = ({ active, disabled, date }: DayProps) => {
   return (
     <ScalingPressable 
       disabled={disabled}
+      onPress={() => onPress(date?.dateString || "")}
     >
       <Text
         style={renderStyle.text}

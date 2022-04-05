@@ -10,10 +10,6 @@ type ClassImageProps = {
 }
 
 const ClassImage = ({ image }: ClassImageProps) => {
-  useEffect(() => {   
-    console.log(image);
-  }, []);
-  
   return (
     <Image 
       key={image.id}

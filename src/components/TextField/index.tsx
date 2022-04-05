@@ -12,6 +12,7 @@ import ButtonTag from "../ButtonTag";
 import Calender from "./Calender";
 import SelectItem from "./SelectItem";
 import theme from "App/global/theme";
+import ModalCalender from "./ModalCalender";
 
 type TextFieldProps = {
   label: string;
@@ -22,7 +23,8 @@ type TextFieldProps = {
   containerStyle?: StyleProp<ViewStyle>;
   selectMultiple?: boolean;
   value?: string;
-  onConfirmDate?(date: Date): void;
+  onConfirmDate?(date: string): void;
+  onConfirmCalender?(date: string): void;
   minimumDate?: Date;
   items?: [];
   itemVarShow?: string;
@@ -38,8 +40,9 @@ const TextField = ({
   smallLabel = false, 
   containerStyle, 
   selectMultiple = false, 
-  value = '', 
+  value = "", 
   onConfirmDate, 
+  onConfirmCalender, 
   minimumDate = new Date(),
   items = [],
   itemVarId = "id",
@@ -80,7 +83,7 @@ const TextField = ({
       newValues[0] = value
       setSelectedValues(newValues);
     }
-  }, [selectedValues, multiple])
+  }, [selectedValues, multiple]);
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -94,36 +97,14 @@ const TextField = ({
               style={[styles.input, styles.inputDate]}
               onPress={_setStatusModalDate}
             >
-              <Text>{!value ? 'DD/MM/YYYY' : moment(value).format('MM/DD/YYYY')}</Text>
+              <Text>{!value ? 'DD/MM/YYYY' : moment(value).format('DD/MM/YYYY')}</Text>
             </Pressable>
-            <Modal 
-              isVisible={showModalDate}
-              onBackButtonPress={_setStatusModalDate}
-              onBackdropPress={_setStatusModalDate}
-              animationIn="fadeIn"
-              animationOut="fadeOut"
-              backdropTransitionOutTiming={0}
-            >
-              <View 
-                style={styles.modalContainer}
-              >
-                <Text style={styles.modalTitle}>Select Time</Text>
-                <Calender />
-                <View style={styles.modalButtons}>
-                  <ButtonTag 
-                    title="Cancel" 
-                    style={{ marginRight: 5 }} 
-                    type="primary"
-                    onPress={_setStatusModalDate} 
-                  />
-                  <ButtonTag 
-                    title="Apply"
-                    type="primary"
-                    onPress={_setStatusModalDate}
-                  />
-                </View>
-              </View>
-            </Modal>
+            <ModalCalender 
+              date={value}
+              onConfirmModal={onConfirmCalender}
+              setStatusModal={_setStatusModalDate} 
+              showModalDate={showModalDate} 
+            />
           </>
         )}
 

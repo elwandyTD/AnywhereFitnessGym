@@ -19,7 +19,6 @@ const OpenTimeList = () => {
       const newList = JSON.parse(JSON.stringify(listDay));
       for (let i = 0; i < fullListDay.length; i++) {
         newList.pop()
-        console.log(newList)
         setListDay(newList);
       }
       setIsOpenArrow(false);
