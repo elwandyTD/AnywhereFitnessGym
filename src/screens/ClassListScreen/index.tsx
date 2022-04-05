@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { SafeAreaView, ScrollView, Image, View, Text, RefreshControl, BackHandler } from "react-native";
-import { RouteProp } from "@react-navigation/native";
+import { SafeAreaView, ScrollView, Image, View, RefreshControl } from "react-native";
+import { RouteProp, useFocusEffect } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import FEIcon from "react-native-vector-icons/Feather";
-import BottomSheet from '@gorhom/bottom-sheet';
 import { SharedElement } from "react-navigation-shared-element";
 
 import styles from "./styles";
 import theme from "Theme";
 import FilterBottomSheet from "Modules/ClassListScreen/FilterBottomSheet";
-import Button from "Components/Button";
 import ImageAssets from "Assets/images";
 import IconButton from "Components/IconButton";
 import ClassListItem from "Modules/ClassListScreen/ClassListItem";
@@ -75,38 +73,6 @@ const ClassListScreen = ({ navigation }: Props) => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const backAction = () => {
-  //     if (bottomSheetRef.current) {
-  //       bottomSheetRef.current.close()
-  //       return true;
-  //     }
-  //   };
-
-  //   const backHandler = BackHandler.addEventListener(
-  //     "hardwareBackPress",
-  //     backAction
-  //   );
-
-  //   return () => backHandler.remove();
-  // }, []);
-  React.useEffect(() => {
-    const backAction = () => {
-      // bottomSheetRef.current?.close()
-      navigation.goBack();
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-
-    return () => {
-      backHandler.remove();
-    }
-  }, []);
-
   return (
     <SafeAreaView style={styles.wrapper}>
       <ScrollView 
@@ -125,13 +91,11 @@ const ClassListScreen = ({ navigation }: Props) => {
             style={styles.bannerImgStyle}
           />
           <View style={styles.logoContainer}>
-            <SharedElement id="home.logo">
-              <Image 
-                source={ImageAssets.Logo}
-                resizeMode="contain"
-                style={styles.logoImgStyle}
-              />
-            </SharedElement>
+            <Image 
+              source={ImageAssets.Logo}
+              resizeMode="contain"
+              style={styles.logoImgStyle}
+            />
           </View>
         </View>
 
@@ -147,7 +111,6 @@ const ClassListScreen = ({ navigation }: Props) => {
           <ButtonTag 
             title="Filter"
             onPress={_openFilterBottomSheet}
-            // type="primary"
           />
         </View>
         <View style={styles.classListContainer}>

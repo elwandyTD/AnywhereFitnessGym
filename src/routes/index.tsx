@@ -41,13 +41,6 @@ const Routes = () => {
         <Stack.Screen 
           name="SplashScreen" 
           component={SplashScreen}
-          sharedElements={() => {
-            return [
-              {
-                id: "home.logo",
-              }
-            ];
-          }}
         />
         <Stack.Screen 
           name="DetailClassScreen" 

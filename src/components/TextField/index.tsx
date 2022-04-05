@@ -4,11 +4,12 @@ import { TextInput } from "react-native-gesture-handler";
 import FeIcon from "react-native-vector-icons/Feather";
 import Modal from "react-native-modal";
 import DatePicker from "react-native-date-picker";
-import { Calendar, CalendarProps } from "react-native-calendars";
+// import { Calendar, CalendarProps } from "react-native-calendars";
 import moment from "moment";
 
 import styles from "./styles";
 import ButtonTag from "../ButtonTag";
+import Calender from "./Calender";
 import SelectItem from "./SelectItem";
 import theme from "App/global/theme";
 
@@ -49,50 +50,10 @@ const TextField = ({
   const [secureText, setSecureText] = useState<boolean>(type === "password" ? true : false);
   const [showModalDate, setShowModalDate] = useState<boolean>(false);
   const [showModalSelect, setShowModalSelect] = useState<boolean>(false);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [disabledDays, setDisabledDays] = useState<{[key: string]: any}>({});
-  // const [selected, setSelected] = useState("2022-03-28");
-
-  const marked = useMemo(() => {
-    if (!selected) {
-      return {};
-    }
-    
-    return {
-      [selected]: {
-        selected: true,
-        disableTouchEvent: true,
-        selectedColor: theme.colors.green,
-        selectedTextColor: theme.colors.white
-      }
-    };
-  }, [selected]);
-
-  const checkDay = (value: string) => value.split(" ")[1] === 'Saturday' || value.split(" ")[1] === 'Sunday';
-
-  const getDaysInMonths = (month: number, year: number, daysIndexes: number[] = [7]) => {
-    let pivot = moment().month(month).year(year).startOf('month');
-    const end = moment().month(month).year(year).endOf('month');
-    let dates: {[key: string]: any} = {};
-    const disabled = { disabled: true, disableTouchEvent: true };
-    while (pivot.isBefore(end)) {
-      daysIndexes.forEach((day) => {
-        const copy = moment(pivot);
-        dates[copy.day(day).format('YYYY-MM-DD')] = disabled;
-      });
-      pivot.add(7, 'days');
-    }
-    setDisabledDays(dates);
-    return dates;
-  }
 
   const onPressSecurePassword = useCallback(() => {
     setSecureText(!secureText);
   }, [secureText]);
-
-  const onDayPress: CalendarProps['onDayPress'] = useCallback(day => {
-    setSelected(day.dateString);
-  }, []);
 
   const _setStatusModalDate = useCallback(() => {
     setShowModalDate(!showModalDate)
@@ -121,10 +82,6 @@ const TextField = ({
     }
   }, [selectedValues, multiple])
 
-  useEffect(() => {
-    getDaysInMonths(moment().month(), moment().year());
-  }, []);
-
   return (
     <View style={[styles.container, containerStyle]}>
       {!noLabel && (
@@ -151,34 +108,7 @@ const TextField = ({
                 style={styles.modalContainer}
               >
                 <Text style={styles.modalTitle}>Select Time</Text>
-                <Calendar
-                  minDate="2022-03-28"
-                  onDayPress={onDayPress}
-                  enableSwipeMonths
-                  hideExtraDays
-                  dayComponent={({ accessibilityLabel, date, state }) => {
-                    return (
-                      <View></View>
-                    );
-                  }}
-                  theme={{
-                    arrowColor: theme.colors.green,
-                    todayTextColor: theme.colors.black,
-                    textColor: theme.colors.black,
-                    selectedDayBackgroundColor: theme.colors.green,
-                    selectedDayTextColor: theme.colors.white,
-                  }}
-                  style={{ 
-                    marginVertical: 15,
-                    borderRadius: 15,
-                    overflow: "hidden"
-                  }}
-                  onMonthChange={(date) => {
-                    getDaysInMonths(date.month - 1, date.year);
-                  }}
-                  markedDates={disabledDays}
-                  // markedDates={{...disabledDays, ...marked}}
-                />
+                <Calender />
                 <View style={styles.modalButtons}>
                   <ButtonTag 
                     title="Cancel" 

@@ -14,6 +14,7 @@ interface CustomBottomSheetProps {
 interface CustomBottomSheetHandle {
   expand(): void;
   close(): void;
+  status: number;
 }
 
 const CustomBottomSheet = forwardRef<CustomBottomSheetHandle, CustomBottomSheetProps>(
@@ -29,7 +30,8 @@ const CustomBottomSheet = forwardRef<CustomBottomSheetHandle, CustomBottomSheetP
       },
       expand: () => {
         bottomSheetRef.current?.expand();
-      }
+      },
+      status: statusBottomsheet
     }));
 
     const snapPoints = useMemo(() => {
@@ -51,16 +53,11 @@ const CustomBottomSheet = forwardRef<CustomBottomSheetHandle, CustomBottomSheetP
     React.useEffect(() => {
       const backAction = () => {
         if (statusBottomsheet < 0) {
-          if (!navigation.canGoBack()) {
-            BackHandler.exitApp();
-          } else {
-            navigation.goBack();
-          }
-        } else {
-          bottomSheetRef.current?.close();
+          return false;
         }
-        
-        return true;
+
+        bottomSheetRef.current?.close();
+        return true
       };
   
       const backHandler = BackHandler.addEventListener(
@@ -71,7 +68,7 @@ const CustomBottomSheet = forwardRef<CustomBottomSheetHandle, CustomBottomSheetP
       return () => {
         backHandler.remove();
       }
-    }, [statusBottomsheet, navigation.canGoBack()]);
+    }, [statusBottomsheet, navigation.canGoBack]);
 
     return (
       <BottomSheet 

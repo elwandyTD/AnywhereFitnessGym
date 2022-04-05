@@ -1,6 +1,5 @@
 import React, { forwardRef, useState, useCallback, useRef } from "react";
-import BottomSheet from '@gorhom/bottom-sheet';
-import { BackHandler, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { useSelector } from "react-redux";
 
 import styles from "./styles";
@@ -8,7 +7,6 @@ import theme from "Theme";
 import ButtonTag from "Components/ButtonTag";
 import CustomBottomSheet from "Components/CustomBottomSheet";
 import { FilterGetAllClass } from "Types/class";
-import { useNavigation } from "@react-navigation/native";
 
 interface FilterBottomSheetProps {
   category: string;
@@ -17,7 +15,9 @@ interface FilterBottomSheetProps {
 }
 
 interface FilterBottomSheetHandle {
-  open(): void
+  close(): void;
+  open(): void;
+  statusBottomSheet: number;
 }
 
 type BottomSheetHandle = React.ElementRef<typeof CustomBottomSheet>;
@@ -57,9 +57,13 @@ const FilterBottomSheet = forwardRef<FilterBottomSheetHandle, FilterBottomSheetP
   }, [tempCategory, tempType]);
 
   React.useImperativeHandle(ref, () => ({
+    close: () => {
+      bottomSheetRef.current?.close();
+    },
     open: () => {
       bottomSheetRef.current?.expand();
-    }
+    },
+    statusBottomSheet: bottomSheetRef.current?.status || -1
   }));
 
   return (
