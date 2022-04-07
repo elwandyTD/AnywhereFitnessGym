@@ -5,6 +5,7 @@ export interface IClassState {
   loading: boolean;
   detailClass: DetailClassModel;
   filterBy: FilterGetAllClass;
+  refresh: boolean;
 }
 
 export interface IClassPayloadState {
@@ -12,6 +13,7 @@ export interface IClassPayloadState {
   loading?: boolean;
   detailClass?: DetailClassModel;
   filterBy?: FilterGetAllClass;
+  refresh?: boolean;
 }
 
 export interface IClassPayload {
@@ -19,6 +21,7 @@ export interface IClassPayload {
   classList?: ClassListModel[];
   loading?: boolean;
   filterBy?: FilterGetAllClass;
+  refresh?: boolean;
 }
 
 export interface IClassAction {

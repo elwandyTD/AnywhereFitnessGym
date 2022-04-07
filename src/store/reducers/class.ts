@@ -9,7 +9,8 @@ const initialState: IClassState = {
     category: "All",
     name: "",
     types: "All"
-  }
+  },
+  refresh: false
 }
 
 const classReducer = (state: IClassState = initialState, action: IClassAction): IClassState => {

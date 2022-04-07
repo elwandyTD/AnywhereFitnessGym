@@ -7,18 +7,31 @@ import { filterClassList } from "Utils/filter"
 export const getClassList = (filterBy: FilterGetAllClass, useRefresh: boolean = false) => {
   return async (dispatch: any) => {
     try {
-      dispatch(setLoading(true));
+      if (useRefresh) {
+        dispatch(setState({ loading: true, refresh: true }))
+      } else {
+        dispatch(setLoading(true));
+      }
+
       const req = await classService.getAll(filterBy);
       const { data = [] } = req.data;
 
       const classList = filterClassList(data, filterBy);
 
       dispatch(setClassList(classList));
-      dispatch(setLoading(false));
 
-      console.log(req.data.data.length, "Length");
+      if (useRefresh) {
+        dispatch(setState({ loading: false, refresh: false }))
+      } else {
+        dispatch(setLoading(false));
+      }
     } catch(e) {
-      dispatch(setLoading(false));
+      if (useRefresh) {
+        dispatch(setState({ loading: false, refresh: false }))
+      } else {
+        dispatch(setLoading(false));
+      }
+      
       dispatch(setClassList([]));
       console.log(e);
     }

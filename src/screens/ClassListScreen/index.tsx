@@ -30,15 +30,12 @@ const ClassListScreen = ({ navigation }: Props) => {
   const alertRef = useRef<AlertHandle>(null);
   const bottomSheetRef = useRef<FilterBottomSheetHandle>(null);
   const dispatch = useDispatch();
-  const [refreshing, setRefreshing] = useState(false);
 
-  const { classList = [], loading, filterBy } = _class;
+  const { classList = [], loading, filterBy, refresh } = _class;
 
-  const _fetchClassList = useCallback(() => {
-    const newFilter = JSON.parse(JSON.stringify(filterBy))
-    console.log(filterBy, "FILTER STATE")
-    console.log(newFilter, "NEW FILTER STATE")
-    dispatch(getClassList(filterBy));
+  const _fetchClassList = useCallback((refresh: boolean = false) => {
+    // const newFilter = JSON.parse(JSON.stringify(filterBy))
+    dispatch(getClassList(filterBy, refresh));
   }, [filterBy, dispatch]);
 
   const _openFilterBottomSheet = useCallback(() => {
@@ -56,11 +53,7 @@ const ClassListScreen = ({ navigation }: Props) => {
   }, [filterBy]);
 
   const _onRefreshing = useCallback(() => {
-    setRefreshing(true);
-    _fetchClassList();
-    if (!loading) {
-      setRefreshing(false);
-    }
+    _fetchClassList(true);
   }, [filterBy]);
 
   return (
@@ -69,7 +62,7 @@ const ClassListScreen = ({ navigation }: Props) => {
         style={styles.container}
         refreshControl={
           <RefreshControl 
-            refreshing={refreshing}
+            refreshing={refresh}
             onRefresh={_onRefreshing}
           />
         }
