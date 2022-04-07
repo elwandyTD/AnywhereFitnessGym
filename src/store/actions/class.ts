@@ -2,14 +2,18 @@ import actionTypes from "../actionTypes";
 import { IClassPayloadState, IClassAction } from "StoreTypes/class";
 import { ClassListModel, FilterGetAllClass } from "Types/class";
 import * as classService from "Services/class";
+import { filterClassList } from "Utils/filter"
 
-export const getClassList = (filterBy?: FilterGetAllClass) => {
+export const getClassList = (filterBy: FilterGetAllClass, useRefresh: boolean = false) => {
   return async (dispatch: any) => {
     try {
       dispatch(setLoading(true));
       const req = await classService.getAll(filterBy);
+      const { data = [] } = req.data;
 
-      dispatch(setClassList(req.data?.data || []));
+      const classList = filterClassList(data, filterBy);
+
+      dispatch(setClassList(classList));
       dispatch(setLoading(false));
 
       console.log(req.data.data.length, "Length");
@@ -39,6 +43,20 @@ export const setClassList = (classList: ClassListModel[]): IClassAction => ({
   type: actionTypes.class.SET_ALL,
   payload: {
     classList
+  }
+});
+
+export const setFilter = (filterBy: FilterGetAllClass): IClassAction => ({
+  type: actionTypes.class.SET_FILTER,
+  payload: {
+    filterBy
+  }
+});
+
+export const setEmpyFilter = (): IClassAction => ({
+  type: actionTypes.class.SET_EMPTY_FILTER,
+  payload: {
+    filterBy: {}
   }
 });
 

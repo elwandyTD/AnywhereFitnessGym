@@ -9,6 +9,7 @@ import TextField from "App/components/TextField";
 import styles from "./styles";
 import theme from "App/global/theme";
 import { ClassPriceDetail } from "App/types/class";
+import { normalizeDateNumber } from "App/utils/format";
 
 type CustomClassPriceDetail = ClassPriceDetail & {
   type: string;
@@ -50,9 +51,57 @@ const BookingBottomSheet = forwardRef<BookingBottomHandle, BookingBottomSheetPro
 
       return Object.assign(item, list[val]);
     });
-    
+
     return updatedList;
   }, [detailClass]);
+
+  const days = useMemo(() => ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"], []);
+
+  const generateFullBookingTime = useMemo(() => {
+    const dateNow = moment();
+    const dayNow: string = days[dateNow.day()] || "monday";
+    
+    if (detailClass.training?.detail) {
+      // const newDate = 
+      const dateClassNow = detailClass.training.detail[dayNow] || "monday";
+      const startTime = moment(`${dateNow.format("YYYY-MM-DD")}T${dateClassNow.start_hours}:00`);
+      const endTime = moment(`${dateNow.format("YYYY-MM-DD")}T${dateClassNow.end_hours}:00`);
+
+      const day = days[moment(date).day()];
+      console.log(day);
+      // console.log(detailClass.training.detail, "DATE")
+    
+      const listFullTime = [];
+      // console.log(startDate, endDate, "Format");
+      // let val1 = startTime.clone();
+      // let val2 = val1.clone().add("minute", 10);
+      // console.log(val1, val2, "VAl 1");
+      // console.log(`${val1.hours()}:${normalizeDateNumber(val1.minutes().toString())}`, `${val2.hours()}:${val2.minutes()}`, "VAl 1");
+      
+      // val1 = val2.clone();
+      // val2 = val1.clone().add("minute", 10);
+      // console.log(val1, val2, "VAl 1");
+      
+      // val1 = val2.clone();
+      // val2 = val1.clone().add("minute", 10);
+      // console.log(val1, val2, "VAl 1");
+      
+      // val1 = val2.clone();
+      // val2 = val1.clone().add("minute", 10);
+      // console.log(val1, val2, "VAl 1");
+
+      // while (val1 < endTime) {
+      //   val1 = val2.clone();
+      //   val2 = val1.clone().add("minute", Number(detailClass.buffer_time || 10));
+      //   console.log(`${val1.hours()}:${normalizeDateNumber(val1.minutes().toString())}`, `${val2.hours()}:${val2.minutes()}`, "VAl 1");
+      // }
+      // console.log(endTime)
+
+      return detailClass.buffer_time;
+    }
+    
+    return [];
+  }, [detailClass, date]);
 
   const _onConfirmCalender = useCallback((date: string) => {
     console.log("Masuk ke sini");

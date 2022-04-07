@@ -1,18 +1,15 @@
 import React, { forwardRef, useState, useCallback, useRef } from "react";
 import { Text, View } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./styles";
 import theme from "Theme";
 import ButtonTag from "Components/ButtonTag";
 import CustomBottomSheet from "Components/CustomBottomSheet";
 import { FilterGetAllClass } from "Types/class";
+import { getClassList, setFilter } from "Actions/class";
 
-interface FilterBottomSheetProps {
-  category: string;
-  onConfirm(filterBy: FilterGetAllClass): void;
-  type: string;
-}
+interface FilterBottomSheetProps {}
 
 interface FilterBottomSheetHandle {
   close(): void;
@@ -22,21 +19,25 @@ interface FilterBottomSheetHandle {
 
 type BottomSheetHandle = React.ElementRef<typeof CustomBottomSheet>;
 
-const FilterBottomSheet = forwardRef<FilterBottomSheetHandle, FilterBottomSheetProps>(({ onConfirm, category, type }, ref) => {
+const FilterBottomSheet = forwardRef<FilterBottomSheetHandle, FilterBottomSheetProps>(({}, ref) => {
   const _category = useSelector((state: AppStore.AppState) => state.category);
+  const _class = useSelector((state: AppStore.AppState) => state.class);
   const _type = useSelector((state: AppStore.AppState) => state.type);
   const bottomSheetRef = useRef<BottomSheetHandle>(null);
+  const dispatch = useDispatch();
   const [tempCategory, setTempCategory] = useState("All");
   const [tempType, setTempType] = useState("All");
+
   const { categoryList = [] } = _category;
+  const { filterBy } = _class;
   const { typeList = [] } = _type;
 
   const _onCancelFilter = useCallback(() => {
-    setTempCategory(category);
-    setTempType(type);
+    setTempCategory(filterBy.category || "All");
+    setTempType(filterBy.types || "All");
 
     bottomSheetRef.current?.close();
-  }, [ref]);
+  }, [ref, filterBy]);
 
   const _onChangeCategory = useCallback((newCategory: string) => {
     setTempCategory(newCategory)
@@ -47,14 +48,15 @@ const FilterBottomSheet = forwardRef<FilterBottomSheetHandle, FilterBottomSheetP
   }, []);
 
   const _onConfirmFilter = useCallback(() => {
-    const filterBy: FilterGetAllClass = {};
-    filterBy.category = tempCategory;
-    filterBy.types = tempType;
+    const newFilterBy: FilterGetAllClass = JSON.parse(JSON.stringify(filterBy));
+    newFilterBy.category = tempCategory;
+    newFilterBy.types = tempType;
 
-    onConfirm(filterBy);
+    dispatch(getClassList(newFilterBy))
+    dispatch(setFilter(newFilterBy))
 
     bottomSheetRef.current?.close();
-  }, [tempCategory, tempType]);
+  }, [tempCategory, tempType, filterBy]);
 
   React.useImperativeHandle(ref, () => ({
     close: () => {

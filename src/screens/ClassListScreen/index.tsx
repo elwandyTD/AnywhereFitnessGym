@@ -14,7 +14,7 @@ import ClassListItem from "Modules/ClassListScreen/ClassListItem";
 import SearchInput from "Components/SearchInput";
 import { useDispatch, useSelector } from "react-redux";
 import ButtonTag from "App/components/ButtonTag";
-import { getClassList } from "Actions/class";
+import { getClassList, setFilter } from "Actions/class";
 import { FilterGetAllClass } from "Types/class";
 import Alert, { AlertHandle } from "App/components/Alert";
 
@@ -30,18 +30,16 @@ const ClassListScreen = ({ navigation }: Props) => {
   const alertRef = useRef<AlertHandle>(null);
   const bottomSheetRef = useRef<FilterBottomSheetHandle>(null);
   const dispatch = useDispatch();
-  const [category, setCategory] = useState("All");
-  const [keyword, setKeyword] = useState("");
   const [refreshing, setRefreshing] = useState(false);
-  const [type, setType] = useState("All");
 
-  const { classList = [], loading } = _class;
+  const { classList = [], loading, filterBy } = _class;
 
-  const _fetchClassList = (filterBy: FilterGetAllClass = { category, types: type }) => {
-    if (keyword !== "") filterBy.name = keyword;
-
+  const _fetchClassList = useCallback(() => {
+    const newFilter = JSON.parse(JSON.stringify(filterBy))
+    console.log(filterBy, "FILTER STATE")
+    console.log(newFilter, "NEW FILTER STATE")
     dispatch(getClassList(filterBy));
-  }
+  }, [filterBy, dispatch]);
 
   const _openFilterBottomSheet = useCallback(() => {
     if (bottomSheetRef.current) {
@@ -49,21 +47,13 @@ const ClassListScreen = ({ navigation }: Props) => {
     }
   }, [bottomSheetRef]);
 
-  const _onConfirmFilter = useCallback((filterBy: FilterGetAllClass) => {
-    _fetchClassList(filterBy);
-    
-    setCategory(filterBy.category || "All");
-    setType(filterBy.types || "All");
-  }, [category, type]);
-
   const _onChangeSearchInput = useCallback((text: string) => {
-    setKeyword(text);
-  }, []);
+    dispatch(setFilter({ name: text }))
+  }, [filterBy]);
 
   const _onPressSearch = useCallback(() => {
-    // _fetchClassList();
-    alertRef.current?.open();
-  }, []);
+    _fetchClassList();
+  }, [filterBy]);
 
   const _onRefreshing = useCallback(() => {
     setRefreshing(true);
@@ -71,7 +61,7 @@ const ClassListScreen = ({ navigation }: Props) => {
     if (!loading) {
       setRefreshing(false);
     }
-  }, []);
+  }, [filterBy]);
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -102,6 +92,7 @@ const ClassListScreen = ({ navigation }: Props) => {
         <View style={styles.filterContainer}>
           <SearchInput 
             onChangeText={_onChangeSearchInput}
+            value={filterBy.name || ""}
           />
           <IconButton 
             icon={<FEIcon name="search" size={theme.sizes.ICON_SIZE} color={theme.colors.black} />}
@@ -121,9 +112,6 @@ const ClassListScreen = ({ navigation }: Props) => {
       </ScrollView>
       <FilterBottomSheet
         ref={bottomSheetRef}
-        onConfirm={_onConfirmFilter}
-        category={category}
-        type={type}
       />
       <Alert
         ref={alertRef}

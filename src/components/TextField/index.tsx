@@ -51,16 +51,20 @@ const TextField = ({
 }: TextFieldProps) => {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [secureText, setSecureText] = useState<boolean>(type === "password" ? true : false);
-  const [showModalDate, setShowModalDate] = useState<boolean>(false);
+  const [showModalCalender, setShowModalCalender] = useState<boolean>(false);
   const [showModalSelect, setShowModalSelect] = useState<boolean>(false);
 
   const onPressSecurePassword = useCallback(() => {
     setSecureText(!secureText);
   }, [secureText]);
 
-  const _setStatusModalDate = useCallback(() => {
-    setShowModalDate(!showModalDate)
-  }, [showModalDate]);
+  const _closeModalCalender = useCallback(() => {
+    setShowModalCalender(false)
+  }, []);
+
+  const _openModalCalender = useCallback(() => {
+    setShowModalCalender(true)
+  }, []);
 
   const _setStatusModalSelect = useCallback(() => {
     setShowModalSelect(!showModalSelect)
@@ -95,15 +99,15 @@ const TextField = ({
           <>
             <Pressable 
               style={[styles.input, styles.inputDate]}
-              onPress={_setStatusModalDate}
+              onPress={_openModalCalender}
             >
               <Text>{!value ? 'DD/MM/YYYY' : moment(value).format('DD/MM/YYYY')}</Text>
             </Pressable>
             <ModalCalender 
               date={value}
               onConfirmModal={onConfirmCalender}
-              setStatusModal={_setStatusModalDate} 
-              showModalDate={showModalDate} 
+              closeModal={_closeModalCalender}
+              showModalCalender={showModalCalender} 
             />
           </>
         )}

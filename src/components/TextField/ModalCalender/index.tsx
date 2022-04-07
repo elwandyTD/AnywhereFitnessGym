@@ -8,29 +8,26 @@ import Calender from "../Calender";
 
 interface ModalCalenderProps {
   date: string;
-  showModalDate: boolean;
-  setStatusModal(): void;
+  showModalCalender: boolean;
+  // setStatusModal(): void;
+  closeModal(): void;
+  // openModal(): void;
   onConfirmModal?(date: string): void;
 }
 
-const ModalCalender = ({ setStatusModal, showModalDate, onConfirmModal, date = "" }: ModalCalenderProps) => {
-  console.log(date, "REAL DATE")
+const ModalCalender = ({ closeModal, showModalCalender, onConfirmModal, date = "" }: ModalCalenderProps) => {
   const [tempDate, setTempDate] = useState<string>(date);
-  // const [tempDate, setTempDate] = useState<string>(() => {
-  //   console.log(date)
-  //   return date;
-  // });
 
-  const readDate = useMemo(() => !tempDate ? date : tempDate, [date, tempDate]);
+  const _readDate = useMemo(() => !tempDate ? date : tempDate, [date, tempDate]);
 
   const _onChangeDay = useCallback((newDate: string) => {
     setTempDate(newDate)
   }, []);
 
   const _closeModal = useCallback(() => {
-    setStatusModal();
+    closeModal();
     setTempDate("");
-  }, [setStatusModal]);
+  }, [closeModal]);
 
   const _onConfirmDate = useCallback(() => {
     if (onConfirmModal) {
@@ -41,7 +38,7 @@ const ModalCalender = ({ setStatusModal, showModalDate, onConfirmModal, date = "
 
   return (
     <Modal 
-      isVisible={showModalDate}
+      isVisible={showModalCalender}
       onBackButtonPress={_closeModal}
       onBackdropPress={_closeModal}
       animationIn="fadeIn"
@@ -53,7 +50,7 @@ const ModalCalender = ({ setStatusModal, showModalDate, onConfirmModal, date = "
       >
         <Text style={styles.modalTitle}>Select Time</Text>
         <Calender
-          valueDate={readDate}
+          valueDate={_readDate}
           onChangeDay={_onChangeDay}
         />
         <View style={styles.modalButtons}>

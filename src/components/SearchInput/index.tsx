@@ -9,14 +9,16 @@ interface SearchInputProps {
   onChangeText?(text: string): void;
   style?: StyleProp<TextStyle>;
   placeholder?: string;
+  value: string;
 }
 
-const SearchInput = ({ style, onChangeText, placeholder = "Search..." }: SearchInputProps) => {
+const SearchInput = ({ style, onChangeText, placeholder = "Search...", value = "" }: SearchInputProps) => {
   return (
     <TextInput 
       style={[styles.container, style]} 
       placeholder={placeholder} 
       onChangeText={onChangeText}
+      value={value}
     />
   )
 }

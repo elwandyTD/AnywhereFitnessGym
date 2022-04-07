@@ -4,8 +4,11 @@ import actionTypes from "../actionTypes";
 const initialState: IClassState = {
   classList: [],
   loading: false,
-  detailClass: {
-
+  detailClass: {},
+  filterBy: {
+    category: "All",
+    name: "",
+    types: "All"
   }
 }
 
@@ -22,6 +25,22 @@ const classReducer = (state: IClassState = initialState, action: IClassAction): 
       return {
         ...state,
         classList: action.payload?.classList || []
+      }
+    }
+
+    case actionTypes.class.SET_FILTER: {
+      return {
+        ...state,
+        filterBy: {
+          ...state.filterBy,
+          ...action.payload?.filterBy || {}
+        }
+      }
+    }
+    case actionTypes.class.SET_EMPTY_FILTER: {
+      return {
+        ...state,
+        filterBy: {}
       }
     }
   }
